@@ -1,0 +1,24 @@
+.hero-bg {
+  background: linear-gradient(325deg, #e729f1, #e1c00d, #f04721, #7821f0);
+  background-size: 400% 400%;
+
+  -webkit-animation: AnimationName 9s ease infinite;
+  -moz-animation: AnimationName 9s ease infinite;
+  animation: AnimationName 9s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+  0%{background-position:0% 96%}
+  50%{background-position:100% 5%}
+  100%{background-position:0% 96%}
+}
+@-moz-keyframes AnimationName {
+  0%{background-position:0% 96%}
+  50%{background-position:100% 5%}
+  100%{background-position:0% 96%}
+}
+@keyframes AnimationName {
+  0%{background-position:0% 96%}
+  50%{background-position:100% 5%}
+  100%{background-position:0% 96%}
+}
