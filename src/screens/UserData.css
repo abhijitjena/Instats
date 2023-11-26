@@ -1,0 +1,19 @@
+.databg1 {
+  background: linear-gradient(45deg, #333333, #161616);
+}
+
+
+@keyframes slideup {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, -1692px, 0); /* The image width */
+  }
+}
+
+.databg2 {
+  background-image: linear-gradient(#393939 .1em, transparent .1em), linear-gradient(90deg, #393939 .1em, transparent .1em);
+  background-size: 1.5em 1.5em;
+  /* animation: slideup 60s linear infinite; */
+}

@@ -1,5 +1,6 @@
 export interface IChatState {
   chatsData: IChatsData;
+  isChatDataUploaded: boolean;
 }
 
 export interface IChatsData {

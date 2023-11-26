@@ -3,6 +3,10 @@ export interface IContentState {
   likedPostStats: ILikedPostStats;
   savedPostStats: ILikedPostStats;
   threadCount: number;
+  isPostDataUploaded: boolean;
+  isLikedPostDataUploaded: boolean;
+  isSavedPostDataUploaded: boolean;
+  isThreadDataUploaded: boolean;
 }
 
 export interface IPostDateMap {

@@ -8,8 +8,16 @@ const getChatsData = (state: RootState): IChatsData => {
   return chatsData;
 };
 
+const getChatDataUploaded = (state: RootState): boolean => {
+  const {
+    chatReducer: { isChatDataUploaded },
+  } = state;
+  return isChatDataUploaded;
+};
+
 const ChatSelectors = {
   getChatsData,
+  getChatDataUploaded,
 };
 
 export default ChatSelectors;

@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { IChatDateMap, IChatsData } from '../../redux/interfaces/chatInterface';
+import {
+  IChatDateMap,
+  IChatsData,
+  ISingleChat,
+} from '../../redux/interfaces/chatInterface';
 import {
   ILikedCreators,
   ILikedPostStats,
@@ -9,9 +13,11 @@ import {
 } from '../../redux/interfaces/contentInterface';
 import { IFollowersFollowing } from '../../redux/interfaces/userInterface';
 import ChatSelectors from '../../redux/selectors/chatSelector';
-import { chatActions } from '../../redux/slices/chatSlice';
-import { contentActions } from '../../redux/slices/contentSlice';
-import { userActions } from '../../redux/slices/userSlice';
+import ContentSelectors from '../../redux/selectors/contentSelector';
+import UserSelectors from '../../redux/selectors/userSelector';
+import { chatActions, resetChatSlice } from '../../redux/slices/chatSlice';
+import { contentActions, resetContentSlice } from '../../redux/slices/contentSlice';
+import { resetUserSlice, userActions } from '../../redux/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { FileUtils } from '../../utils/FileUtils';
 import SectionTitle from '../SectionTitle';
@@ -21,8 +27,11 @@ const FolderUploader = (): React.ReactElement => {
   const [contentUploading, setContentUploading] = useState(false);
   const [contentUploaded, setContentUploaded] = useState(false);
 
-  const [followUploading, setFollowUploading] = useState(false);
-  const [followUploaded, setFollowUploaded] = useState(false);
+  const [followerUploading, setFollowerUploading] = useState(false);
+  const [followerUploaded, setFollowerUploaded] = useState(false);
+
+  const [followingUploading, setFollowingUploading] = useState(false);
+  const [followingUploaded, setFollowingUploaded] = useState(false);
 
   const [likesUploading, setLikesUploading] = useState(false);
   const [likesUploaded, setLikesUploaded] = useState(false);
@@ -37,7 +46,25 @@ const FolderUploader = (): React.ReactElement => {
   const [threadsUploaded, setThreadsUploaded] = useState(false);
 
   const dispatch = useAppDispatch();
-  let previousChatData: IChatsData = {};
+
+  const isPostDataUploaded = useSelector(ContentSelectors.getPostDataUploaded);
+  const isLikedPostDataUploaded = useSelector(ContentSelectors.getLikedPostDataUploaded);
+  const isSavedPostDataUploaded = useSelector(ContentSelectors.getSavedPostDataUploaded);
+  const isThreadDataUploaded = useSelector(ContentSelectors.getThreadDataUploaded);
+  const isChatDataUploaded = useSelector(ChatSelectors.getChatDataUploaded);
+  const isFollowDataUploaded = useSelector(UserSelectors.getFollowDataUploaded);
+
+  useEffect(() => {
+    if (isPostDataUploaded) setContentUploaded(true);
+    if (isLikedPostDataUploaded) setLikesUploaded(true);
+    if (isSavedPostDataUploaded) setSavesUploaded(true);
+    if (isThreadDataUploaded) setThreadsUploaded(true);
+    if (isChatDataUploaded) setInboxUploaded(true);
+    if (isFollowDataUploaded) {
+      setFollowerUploaded(true);
+      setFollowingUploaded(true);
+    }
+  }, []);
 
   const retrieveContentFiles = (files: FileList | null) => {
     setContentUploading(true);
@@ -149,83 +176,89 @@ const FolderUploader = (): React.ReactElement => {
         setContentUploading(false);
         setContentUploaded(true);
         dispatch(contentActions.setContentInfo(contentMap));
+        dispatch(contentActions.setPostDataUploaded(true));
         console.timeEnd('content upload');
       });
     }
   };
 
   const retrieveFollowFiles = (files: FileList | null) => {
-    setFollowUploading(true);
-    const followStats: IFollowersFollowing = {
-      followerHistory: {},
-      followingHistory: {},
-    };
-    console.time('follow upload');
+    setFollowerUploading(true);
+    setFollowingUploading(true);
+    const followerHistory: { [year: string]: number } = {};
+    const followingHistory: { [year: string]: number } = {};
     if (files) {
       const jsonFiles = [...files].filter((item) => item.type === 'application/json');
-      const promise = new Promise((resolve) => {
-        jsonFiles.forEach((file, index) => {
-          if (file.webkitRelativePath.includes('following.json')) {
-            FileUtils.fileToDataUri(file).then((dataUri: any) => {
-              if (dataUri) {
-                fetch(dataUri.toString())
-                  .then((response) => response.json())
-                  .then((data) => {
-                    for (let i = 2018; i <= new Date().getFullYear(); i++) {
-                      const followingForYear = data.relationships_following.filter(
-                        (media: any) =>
-                          media.string_list_data[0].timestamp * 1000 >=
-                            new Date(i, 0, 1, 0, 0, 0).getTime() &&
-                          media.string_list_data[0].timestamp * 1000 <=
-                            new Date(i, 11, 31, 23, 59, 59).getTime(),
-                      );
-                      followStats.followingHistory[i] = followingForYear.length;
-                    }
-                  });
-              }
-            });
-          }
-          if (
-            file.webkitRelativePath
-              .substring(
-                file.webkitRelativePath.indexOf('/') + 1,
-                file.webkitRelativePath.length,
-              )
-              .includes('followers')
-          ) {
-            FileUtils.fileToDataUri(file).then((dataUri: any) => {
-              if (dataUri) {
-                fetch(dataUri.toString())
-                  .then((response) => response.json())
-                  .then((data) => {
-                    for (let i = 2018; i <= new Date().getFullYear(); i++) {
-                      const followersForYear = data.filter(
-                        (media: any) =>
-                          media.string_list_data[0].timestamp * 1000 >=
-                            new Date(i, 0, 1, 0, 0, 0).getTime() &&
-                          media.string_list_data[0].timestamp * 1000 <=
-                            new Date(i, 11, 31, 23, 59, 59).getTime(),
-                      );
-                      followStats.followerHistory[i] = followersForYear.length;
-                    }
-                  });
-              }
-            });
-          }
-
-          if (index === jsonFiles.length - 1) {
-            setTimeout(() => {
-              resolve(1);
-            }, 2000);
-          }
-        });
-      });
-
-      promise.then(() => {
-        setFollowUploading(false);
-        setFollowUploaded(true);
-        dispatch(userActions.setFollowHistory(followStats));
-        console.timeEnd('follow upload');
+      jsonFiles.forEach((file, index) => {
+        if (
+          file.webkitRelativePath
+            .substring(
+              file.webkitRelativePath.indexOf('/') + 1,
+              file.webkitRelativePath.length,
+            )
+            .startsWith('following')
+        ) {
+          console.time(`following upload ${index}`);
+          FileUtils.fileToDataUri(file).then((dataUri: any) => {
+            if (dataUri) {
+              fetch(dataUri.toString())
+                .then((response) => response.json())
+                .then((data) => {
+                  for (let i = 2018; i <= new Date().getFullYear(); i++) {
+                    const followingForYear = data.relationships_following.filter(
+                      (media: any) =>
+                        media.string_list_data[0].timestamp * 1000 >=
+                          new Date(i, 0, 1, 0, 0, 0).getTime() &&
+                        media.string_list_data[0].timestamp * 1000 <=
+                          new Date(i, 11, 31, 23, 59, 59).getTime(),
+                    );
+                    followingHistory[i] = followingForYear.length;
+                  }
+                })
+                .then(() => {
+                  setFollowingUploading(false);
+                  setFollowingUploaded(true);
+                  dispatch(userActions.setFollowingHistory(followingHistory));
+                  console.timeEnd(`following upload ${index}`);
+                });
+            }
+          });
+        }
+        if (
+          file.webkitRelativePath
+            .substring(
+              file.webkitRelativePath.indexOf('/') + 1,
+              file.webkitRelativePath.length,
+            )
+            .includes('followers')
+        ) {
+          console.time(`follower upload ${index}`);
+          FileUtils.fileToDataUri(file).then((dataUri: any) => {
+            if (dataUri) {
+              fetch(dataUri.toString())
+                .then((response) => response.json())
+                .then((data) => {
+                  for (let i = 2018; i <= new Date().getFullYear(); i++) {
+                    const followersForYear = data.filter(
+                      (media: any) =>
+                        media.string_list_data[0].timestamp * 1000 >=
+                          new Date(i, 0, 1, 0, 0, 0).getTime() &&
+                        media.string_list_data[0].timestamp * 1000 <=
+                          new Date(i, 11, 31, 23, 59, 59).getTime(),
+                    );
+                    followerHistory[i] = followersForYear.length;
+                  }
+                })
+                .then(() => {
+                  setFollowerUploading(false);
+                  setFollowerUploaded(true);
+                  dispatch(userActions.setFollowDataUploaded(true));
+                  dispatch(userActions.setFollowerHistory(followerHistory));
+                  console.timeEnd(`follower upload ${index}`);
+                });
+            }
+          });
+        }
       });
     }
   };
@@ -237,62 +270,56 @@ const FolderUploader = (): React.ReactElement => {
       yearData: {},
       topCreators: [],
     };
-    console.time('like upload');
     if (files) {
       const jsonFiles = [...files].filter((item) => item.type === 'application/json');
-      const promise = new Promise((resolve) => {
-        jsonFiles.forEach((file) => {
-          if (file.webkitRelativePath.includes('liked_posts')) {
-            FileUtils.fileToDataUri(file).then((dataUri: any) => {
-              if (dataUri) {
-                fetch(dataUri.toString())
-                  .then((response) => response.json())
-                  .then((data) => {
-                    for (let i = 2018; i <= new Date().getFullYear(); i++) {
-                      const likesForYear = data.likes_media_likes.filter(
-                        (media: any) =>
-                          media.string_list_data[0].timestamp * 1000 >=
-                            new Date(i, 0, 1, 0, 0, 0).getTime() &&
-                          media.string_list_data[0].timestamp * 1000 <=
-                            new Date(i, 11, 31, 23, 59, 59).getTime(),
-                      );
-                      likedPostStats.yearData[i] = likesForYear.length;
-                    }
-                    const likes2023 = data.likes_media_likes.filter(
+      jsonFiles.forEach((file, index) => {
+        if (file.webkitRelativePath.includes('liked_posts')) {
+          console.time(`like upload ${index}`);
+          FileUtils.fileToDataUri(file).then((dataUri: any) => {
+            if (dataUri) {
+              fetch(dataUri.toString())
+                .then((response) => response.json())
+                .then((data) => {
+                  for (let i = 2018; i <= new Date().getFullYear(); i++) {
+                    const likesForYear = data.likes_media_likes.filter(
                       (media: any) =>
                         media.string_list_data[0].timestamp * 1000 >=
-                          new Date(2023, 0, 1, 0, 0, 0).getTime() &&
+                          new Date(i, 0, 1, 0, 0, 0).getTime() &&
                         media.string_list_data[0].timestamp * 1000 <=
-                          new Date(2023, 11, 31, 23, 59, 59).getTime(),
+                          new Date(i, 11, 31, 23, 59, 59).getTime(),
                     );
-                    likes2023.forEach((media: any, index: number) => {
-                      const creator = media.title as string;
-                      if (!creatorLikeMap[creator])
-                        creatorLikeMap = { ...creatorLikeMap, [creator]: 0 };
+                    likedPostStats.yearData[i] = likesForYear.length;
+                  }
+                  const likes2023 = data.likes_media_likes.filter(
+                    (media: any) =>
+                      media.string_list_data[0].timestamp * 1000 >=
+                        new Date(2023, 0, 1, 0, 0, 0).getTime() &&
+                      media.string_list_data[0].timestamp * 1000 <=
+                        new Date(2023, 11, 31, 23, 59, 59).getTime(),
+                  );
+                  likes2023.forEach((media: any, index: number) => {
+                    const creator = media.title as string;
+                    if (!creatorLikeMap[creator])
+                      creatorLikeMap = { ...creatorLikeMap, [creator]: 0 };
 
-                      const prevLikes = creatorLikeMap[creator];
-                      creatorLikeMap[creator] = prevLikes + 1;
-                      if (index === jsonFiles.length - 1)
-                        setTimeout(() => {
-                          resolve(1);
-                        }, 2000);
-                    });
+                    const prevLikes = creatorLikeMap[creator];
+                    creatorLikeMap[creator] = prevLikes + 1;
                   });
-              }
-            });
-          }
-        });
-      });
-
-      promise.then(() => {
-        setLikesUploading(false);
-        setLikesUploaded(true);
-        const topCreators = Object.entries(creatorLikeMap)
-          .sort((a, b) => (a[1] < b[1] ? 1 : -1))
-          .slice(0, 10);
-        likedPostStats.topCreators = topCreators;
-        dispatch(contentActions.setCreatorLikesInfo(likedPostStats));
-        console.timeEnd('like upload');
+                })
+                .then(() => {
+                  setLikesUploading(false);
+                  setLikesUploaded(true);
+                  const topCreators = Object.entries(creatorLikeMap)
+                    .sort((a, b) => (a[1] < b[1] ? 1 : -1))
+                    .slice(0, 10);
+                  likedPostStats.topCreators = topCreators;
+                  dispatch(contentActions.setLikedPostDataUploaded(true));
+                  dispatch(contentActions.setCreatorLikesInfo(likedPostStats));
+                  console.timeEnd(`like upload ${index}`);
+                });
+            }
+          });
+        }
       });
     }
   };
@@ -320,113 +347,88 @@ const FolderUploader = (): React.ReactElement => {
         .sort((a, b) => (a[1] < b[1] ? 1 : -1))
         .slice(0, 30);
       const topChatNames = topChatArray.map((value) => value[0]);
-      const promise = new Promise((resolve) => {
-        jsonFiles.forEach((file, index) => {
-          FileUtils.fileToDataUri(file).then((dataUri: any) => {
-            if (dataUri) {
-              fetch(dataUri.toString())
-                .then((response) => response.json())
-                .then((data) => {
-                  if (topChatNames.includes(data.thread_path)) {
-                    const chatId = data.thread_path;
-                    const title = data.title;
-                    const chatStore: IChatDateMap =
-                      previousChatData?.[chatId]?.dateMap || {};
-                    let totalReels = previousChatData?.[chatId]?.totalReels || 0;
-                    let totalTexts = previousChatData?.[chatId]?.totalTexts || 0;
 
-                    data.messages.forEach((message: any) => {
-                      const messageDate = new Date(message.timestamp_ms).getDate();
-                      const messageMonth = new Date(message.timestamp_ms).getMonth();
-                      const messageYear = new Date(message.timestamp_ms).getFullYear();
-                      if (!chatStore[messageYear]) chatStore[messageYear] = {};
-                      if (!chatStore[messageYear][messageMonth])
-                        chatStore[messageYear][messageMonth] = {};
-                      if (!chatStore[messageYear][messageMonth][messageDate])
-                        chatStore[messageYear][messageMonth][messageDate] = {
-                          numOfReels: 0,
-                          numOfTexts: 0,
-                        };
+      jsonFiles.forEach((file, index) => {
+        let fileData: ISingleChat = {};
+        FileUtils.fileToDataUri(file).then((dataUri: any) => {
+          if (dataUri) {
+            fetch(dataUri.toString())
+              .then((response) => response.json())
+              .then((data) => {
+                if (topChatNames.includes(data.thread_path)) {
+                  const chatId = data.thread_path;
+                  const title = data.title;
+                  const chatStore: IChatDateMap = {};
+                  let totalReels = 0;
+                  let totalTexts = 0;
 
-                      let prevReelValue =
-                        chatStore[messageYear]?.[messageMonth]?.[messageDate]
-                          ?.numOfReels || 0;
+                  data.messages.forEach((message: any) => {
+                    const messageDate = new Date(message.timestamp_ms).getDate();
+                    const messageMonth = new Date(message.timestamp_ms).getMonth();
+                    const messageYear = new Date(message.timestamp_ms).getFullYear();
+                    if (!chatStore[messageYear]) chatStore[messageYear] = {};
+                    if (!chatStore[messageYear][messageMonth])
+                      chatStore[messageYear][messageMonth] = {};
+                    if (!chatStore[messageYear][messageMonth][messageDate])
+                      chatStore[messageYear][messageMonth][messageDate] = {
+                        numOfReels: 0,
+                        numOfTexts: 0,
+                      };
 
-                      let prevTextValue =
-                        chatStore[messageYear]?.[messageMonth]?.[messageDate]
-                          ?.numOfTexts || 0;
+                    let prevReelValue =
+                      chatStore[messageYear]?.[messageMonth]?.[messageDate]?.numOfReels ||
+                      0;
 
-                      totalTexts += 1;
+                    let prevTextValue =
+                      chatStore[messageYear]?.[messageMonth]?.[messageDate]?.numOfTexts ||
+                      0;
 
-                      if (chatStore[messageYear][messageMonth][messageDate].numOfTexts)
-                        chatStore[messageYear][messageMonth][messageDate].numOfTexts =
-                          prevTextValue += 1;
+                    totalTexts += 1;
+
+                    if (chatStore[messageYear][messageMonth][messageDate].numOfTexts)
+                      chatStore[messageYear][messageMonth][messageDate].numOfTexts =
+                        prevTextValue += 1;
+                    else
+                      chatStore[messageYear][messageMonth][messageDate] = {
+                        ...chatStore[messageYear][messageMonth][messageDate],
+                        numOfTexts: (prevTextValue += 1),
+                      };
+
+                    if (
+                      message.share &&
+                      message.share.link &&
+                      message.share.link.includes('/reel/')
+                    ) {
+                      totalReels += 1;
+                      if (chatStore[messageYear][messageMonth][messageDate].numOfReels)
+                        chatStore[messageYear][messageMonth][messageDate].numOfReels =
+                          prevReelValue += 1;
                       else
                         chatStore[messageYear][messageMonth][messageDate] = {
                           ...chatStore[messageYear][messageMonth][messageDate],
-                          numOfTexts: (prevTextValue += 1),
+                          numOfReels: (prevReelValue += 1),
                         };
-
-                      if (
-                        message.share &&
-                        message.share.link &&
-                        message.share.link.includes('/reel/')
-                      ) {
-                        totalReels += 1;
-                        if (chatStore[messageYear][messageMonth][messageDate].numOfReels)
-                          chatStore[messageYear][messageMonth][messageDate].numOfReels =
-                            prevReelValue += 1;
-                        else
-                          chatStore[messageYear][messageMonth][messageDate] = {
-                            ...chatStore[messageYear][messageMonth][messageDate],
-                            numOfReels: (prevReelValue += 1),
-                          };
-                      }
-                    });
-
-                    const previousChatInstance = previousChatData[chatId];
-                    if (previousChatInstance) {
-                      const prevReels = previousChatInstance.totalReels;
-                      const prevTexts = previousChatInstance.totalTexts;
-                      const previousDateMap = previousChatInstance.dateMap;
-
-                      previousChatData = {
-                        ...previousChatData,
-                        [chatId]: {
-                          threadName: chatId,
-                          title,
-                          dateMap: { ...chatStore },
-                          totalReels: prevReels + totalReels,
-                          totalTexts: prevTexts + totalTexts,
-                        },
-                      };
-                    } else {
-                      previousChatData = {
-                        ...previousChatData,
-                        [chatId]: {
-                          threadName: chatId,
-                          title,
-                          dateMap: chatStore,
-                          totalReels,
-                          totalTexts,
-                        },
-                      };
                     }
-                  }
-                  if (index === jsonFiles.length - 1)
-                    setTimeout(() => {
-                      resolve(1);
-                    }, 4000);
-                });
-            }
-          });
+                  });
+
+                  fileData = {
+                    threadName: chatId,
+                    title,
+                    dateMap: chatStore,
+                    totalReels,
+                    totalTexts,
+                  };
+                  dispatch(chatActions.setChatInfo(fileData));
+                }
+                if (index === jsonFiles.length - 1) {
+                  setInboxUploading(false);
+                  setInboxUploaded(true);
+                  dispatch(chatActions.setChatUploaded(true));
+                  console.timeEnd('upload start2');
+                }
+              });
+          }
         });
-      });
-      promise.then(() => {
-        setInboxUploading(false);
-        setInboxUploaded(true);
-        dispatch(chatActions.setChatInfo(previousChatData));
-        console.timeEnd('upload start2');
       });
     }
   };
@@ -438,63 +440,61 @@ const FolderUploader = (): React.ReactElement => {
       yearData: {},
       topCreators: [],
     };
-    console.time('save upload');
     if (files) {
       const jsonFiles = [...files].filter((item) => item.type === 'application/json');
-      const promise = new Promise((resolve) => {
-        jsonFiles.forEach((file) => {
-          if (file.webkitRelativePath.includes('saved_posts')) {
-            FileUtils.fileToDataUri(file).then((dataUri: any) => {
-              if (dataUri) {
-                fetch(dataUri.toString())
-                  .then((response) => response.json())
-                  .then((data) => {
-                    for (let i = 2018; i <= new Date().getFullYear(); i++) {
-                      const savesForYear = data.saved_saved_media.filter(
-                        (media: any) =>
-                          media.string_map_data['Saved on'].timestamp * 1000 >=
-                            new Date(i, 0, 1, 0, 0, 0).getTime() &&
-                          media.string_map_data['Saved on'].timestamp * 1000 <=
-                            new Date(i, 11, 31, 23, 59, 59).getTime(),
-                      );
-                      savedPostStats.yearData[i] = savesForYear.length;
-                    }
-                    const saved2023 = data.saved_saved_media.filter(
+      jsonFiles.forEach((file) => {
+        if (file.webkitRelativePath.includes('saved_posts')) {
+          FileUtils.fileToDataUri(file).then((dataUri: any) => {
+            if (dataUri) {
+              fetch(dataUri.toString())
+                .then((response) => response.json())
+                .then((data) => {
+                  for (let i = 2018; i <= new Date().getFullYear(); i++) {
+                    const savesForYear = data.saved_saved_media.filter(
                       (media: any) =>
                         media.string_map_data['Saved on'].timestamp * 1000 >=
-                          new Date(2023, 0, 1, 0, 0, 0).getTime() &&
+                          new Date(i, 0, 1, 0, 0, 0).getTime() &&
                         media.string_map_data['Saved on'].timestamp * 1000 <=
-                          new Date(2023, 11, 31, 23, 59, 59).getTime(),
+                          new Date(i, 11, 31, 23, 59, 59).getTime(),
                     );
-                    saved2023.forEach((media: any, index: number) => {
-                      const creator = media.title as string;
-                      if (!creatorSavedMap[creator])
-                        creatorSavedMap = { ...creatorSavedMap, [creator]: 0 };
-
-                      const prevLikes = creatorSavedMap[creator];
-                      creatorSavedMap[creator] = prevLikes + 1;
-                      if (index === jsonFiles.length - 1)
-                        setTimeout(() => {
-                          resolve(1);
-                        }, 2000);
-                    });
+                    savedPostStats.yearData[i] = savesForYear.length;
+                  }
+                  const saved2023 = data.saved_saved_media.filter(
+                    (media: any) =>
+                      media.string_map_data['Saved on'].timestamp * 1000 >=
+                        new Date(2023, 0, 1, 0, 0, 0).getTime() &&
+                      media.string_map_data['Saved on'].timestamp * 1000 <=
+                        new Date(2023, 11, 31, 23, 59, 59).getTime(),
+                  );
+                  saved2023.forEach((media: any, index: number) => {
+                    const creator = media.title as string;
+                    if (!creatorSavedMap[creator])
+                      creatorSavedMap = { ...creatorSavedMap, [creator]: 0 };
+                    const prevLikes = creatorSavedMap[creator];
+                    creatorSavedMap[creator] = prevLikes + 1;
                   });
-              }
-            });
-          }
-        });
+                })
+                .then(() => {
+                  setSavesUploading(false);
+                  setSavesUploaded(true);
+                  const topCreators = Object.entries(creatorSavedMap)
+                    .sort((a, b) => (a[1] < b[1] ? 1 : -1))
+                    .slice(0, 10);
+                  savedPostStats.topCreators = topCreators;
+                  dispatch(contentActions.setSavedPostDataUploaded(true));
+                  dispatch(contentActions.setSavedPostsInfo(savedPostStats));
+                });
+            }
+          });
+        }
       });
-
-      promise.then(() => {
+      if (
+        jsonFiles.filter((file) => file.webkitRelativePath.includes('saved_posts'))
+          .length === 0
+      ) {
         setSavesUploading(false);
         setSavesUploaded(true);
-        const topCreators = Object.entries(creatorSavedMap)
-          .sort((a, b) => (a[1] < b[1] ? 1 : -1))
-          .slice(0, 10);
-        savedPostStats.topCreators = topCreators;
-        dispatch(contentActions.setSavedPostsInfo(savedPostStats));
-        console.timeEnd('save upload');
-      });
+      }
     }
   };
 
@@ -503,28 +503,33 @@ const FolderUploader = (): React.ReactElement => {
     let threadCount = 0;
     if (files) {
       const jsonFiles = [...files].filter((item) => item.type === 'application/json');
-      const promise = new Promise((resolve) => {
-        jsonFiles.forEach((file) => {
-          if (file.webkitRelativePath.includes('threads_and_replies')) {
-            FileUtils.fileToDataUri(file).then((dataUri: any) => {
-              if (dataUri) {
-                fetch(dataUri.toString())
-                  .then((response) => response.json())
-                  .then((data) => {
-                    threadCount = data.text_post_app_text_posts.length;
-                    resolve(1);
-                  });
-              }
-            });
-          }
-        });
+      jsonFiles.forEach((file) => {
+        if (file.webkitRelativePath.includes('threads_and_replies')) {
+          FileUtils.fileToDataUri(file).then((dataUri: any) => {
+            if (dataUri) {
+              fetch(dataUri.toString())
+                .then((response) => response.json())
+                .then((data) => {
+                  threadCount = data.text_post_app_text_posts.length;
+                })
+                .then(() => {
+                  setThreadsUploading(false);
+                  setThreadsUploaded(true);
+                  dispatch(contentActions.setThreadDataUploaded(true));
+                  dispatch(contentActions.setThreadsInfo(threadCount));
+                });
+            }
+          });
+        }
       });
-
-      promise.then(() => {
+      if (
+        jsonFiles.filter((file) =>
+          file.webkitRelativePath.includes('threads_and_replies'),
+        ).length === 0
+      ) {
         setThreadsUploading(false);
         setThreadsUploaded(true);
-        dispatch(contentActions.setThreadsInfo(threadCount));
-      });
+      }
     }
   };
 
@@ -556,8 +561,8 @@ const FolderUploader = (): React.ReactElement => {
           </div>
           <UploadButton
             retrieveFiles={(files: FileList | null) => retrieveFollowFiles(files)}
-            hasUploaded={followUploaded}
-            isUploading={followUploading}
+            hasUploaded={followerUploaded && followingUploaded}
+            isUploading={followerUploading || followingUploading}
           />
         </div>
       </div>
@@ -620,6 +625,29 @@ const FolderUploader = (): React.ReactElement => {
             isUploading={threadsUploading}
           />
         </div>
+      </div>
+
+      <div className="flex flex-col items-center">
+        <button
+          className={`relative w-36 h-16 mt-16 rounded-full flex flex-col items-center justify-center bg-orange-500`}
+          onClick={() => {
+            dispatch(userActions.setIsNewUser(false));
+          }}
+        >
+          <p className="text-lg leading-none">Continue</p>
+        </button>
+      </div>
+      <div className="flex flex-col items-center">
+        <button
+          className={`relative w-36 h-10 mt-16 rounded-full flex flex-col items-center justify-center bg-orange-500`}
+          onClick={() => {
+            dispatch(resetUserSlice());
+            dispatch(resetChatSlice());
+            dispatch(resetContentSlice());
+          }}
+        >
+          <p className="text-lg leading-none">Reset</p>
+        </button>
       </div>
     </div>
   );

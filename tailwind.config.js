@@ -6,8 +6,10 @@ module.exports = {
       fontFamily: {
         martian: ['Martian Mono', 'sans-serif'],
         poppins: ['Poppins', 'sans-serif'],
+        vinasans: ['Vina Sans', 'sans-serif'],
+        pikachu: ['Unbounded', 'sans-serif'],
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-bg-patterns')],
 };

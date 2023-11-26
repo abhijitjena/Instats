@@ -15,9 +15,17 @@ const getFollowHistory = (state: RootState): IFollowersFollowing => {
   return followHistory;
 };
 
+const getFollowDataUploaded = (state: RootState): boolean => {
+  const {
+    userReducer: { isFollowDataUploaded },
+  } = state;
+  return isFollowDataUploaded;
+};
+
 const UserSelectors = {
   getNewUserValue,
   getFollowHistory,
+  getFollowDataUploaded,
 };
 
 export default UserSelectors;

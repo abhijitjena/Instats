@@ -1,6 +1,7 @@
 export interface IUserState {
   isNewUser: boolean;
   followHistory: IFollowersFollowing;
+  isFollowDataUploaded: boolean;
 }
 
 export interface IFollowersFollowing {
