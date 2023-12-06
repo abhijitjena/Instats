@@ -37,17 +37,17 @@ const UploadButton = (props: IProps): ReactElement => {
         }}
       />
       <button
-        className={`relative w-24 h-10 rounded-full flex flex-col items-center justify-center ${
-          isUploading ? 'bg-yellow-500' : hasUploaded ? 'bg-emerald-500' : 'bg-purple-500'
+        className={`relative w-24 h-10 rounded-none flex flex-col items-center justify-center z-10 shadow-black shadow-[8px_10px_0_0] ${
+          isUploading ? 'bg-yellow-500' : hasUploaded ? 'bg-emerald-500' : 'bg-white'
         }`}
         onClick={() => handleFolderUpload()}
       >
         {isUploading ? (
           <span className="upload-loader"></span>
         ) : hasUploaded ? (
-          <p className="text-base leading-none">Done</p>
+          <p className="text-base font-medium leading-none text-white">Done</p>
         ) : (
-          <p className="text-base leading-none">Upload</p>
+          <p className="text-base font-medium leading-none text-slate-900">Upload</p>
         )}
       </button>
     </div>

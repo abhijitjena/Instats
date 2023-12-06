@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import {
-  IChatDateMap,
-  IChatsData,
-  ISingleChat,
-} from '../../redux/interfaces/chatInterface';
+import { IChatDateMap, ISingleChat } from '../../redux/interfaces/chatInterface';
 import {
   ILikedCreators,
   ILikedPostStats,
   IPostDateMap,
 } from '../../redux/interfaces/contentInterface';
-import { IFollowersFollowing } from '../../redux/interfaces/userInterface';
 import ChatSelectors from '../../redux/selectors/chatSelector';
 import ContentSelectors from '../../redux/selectors/contentSelector';
 import UserSelectors from '../../redux/selectors/userSelector';
 import { chatActions, resetChatSlice } from '../../redux/slices/chatSlice';
 import { contentActions, resetContentSlice } from '../../redux/slices/contentSlice';
 import { resetUserSlice, userActions } from '../../redux/slices/userSlice';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { useAppDispatch } from '../../redux/store';
 import { FileUtils } from '../../utils/FileUtils';
 import SectionTitle from '../SectionTitle';
 import UploadButton from '../UploadButton';
@@ -42,15 +37,11 @@ const FolderUploader = (): React.ReactElement => {
   const [savesUploading, setSavesUploading] = useState(false);
   const [savesUploaded, setSavesUploaded] = useState(false);
 
-  const [threadsUploading, setThreadsUploading] = useState(false);
-  const [threadsUploaded, setThreadsUploaded] = useState(false);
-
   const dispatch = useAppDispatch();
 
   const isPostDataUploaded = useSelector(ContentSelectors.getPostDataUploaded);
   const isLikedPostDataUploaded = useSelector(ContentSelectors.getLikedPostDataUploaded);
   const isSavedPostDataUploaded = useSelector(ContentSelectors.getSavedPostDataUploaded);
-  const isThreadDataUploaded = useSelector(ContentSelectors.getThreadDataUploaded);
   const isChatDataUploaded = useSelector(ChatSelectors.getChatDataUploaded);
   const isFollowDataUploaded = useSelector(UserSelectors.getFollowDataUploaded);
 
@@ -58,7 +49,6 @@ const FolderUploader = (): React.ReactElement => {
     if (isPostDataUploaded) setContentUploaded(true);
     if (isLikedPostDataUploaded) setLikesUploaded(true);
     if (isSavedPostDataUploaded) setSavesUploaded(true);
-    if (isThreadDataUploaded) setThreadsUploaded(true);
     if (isChatDataUploaded) setInboxUploaded(true);
     if (isFollowDataUploaded) {
       setFollowerUploaded(true);
@@ -196,14 +186,22 @@ const FolderUploader = (): React.ReactElement => {
               file.webkitRelativePath.indexOf('/') + 1,
               file.webkitRelativePath.length,
             )
-            .startsWith('following')
+            .startsWith('following') &&
+          !file.webkitRelativePath
+            .substring(
+              file.webkitRelativePath.indexOf('/') + 1,
+              file.webkitRelativePath.length,
+            )
+            .includes('hashtag')
         ) {
           console.time(`following upload ${index}`);
           FileUtils.fileToDataUri(file).then((dataUri: any) => {
+            console.log('file', file);
             if (dataUri) {
               fetch(dataUri.toString())
                 .then((response) => response.json())
                 .then((data) => {
+                  console.log('data', data);
                   for (let i = 2018; i <= new Date().getFullYear(); i++) {
                     const followingForYear = data.relationships_following.filter(
                       (media: any) =>
@@ -348,6 +346,13 @@ const FolderUploader = (): React.ReactElement => {
         .slice(0, 30);
       const topChatNames = topChatArray.map((value) => value[0]);
 
+      const nameDecode = (input: string): string => {
+        const utf8 = new Uint8Array(
+          Array.prototype.map.call(input, (c) => c.charCodeAt(0)) as any,
+        );
+        return new TextDecoder('utf8').decode(utf8);
+      };
+
       jsonFiles.forEach((file, index) => {
         let fileData: ISingleChat = {};
         FileUtils.fileToDataUri(file).then((dataUri: any) => {
@@ -357,7 +362,8 @@ const FolderUploader = (): React.ReactElement => {
               .then((data) => {
                 if (topChatNames.includes(data.thread_path)) {
                   const chatId = data.thread_path;
-                  const title = data.title;
+                  const title = nameDecode(data.title);
+                  console.log('title', title);
                   const chatStore: IChatDateMap = {};
                   let totalReels = 0;
                   let totalTexts = 0;
@@ -413,7 +419,7 @@ const FolderUploader = (): React.ReactElement => {
 
                   fileData = {
                     threadName: chatId,
-                    title,
+                    title: title,
                     dateMap: chatStore,
                     totalReels,
                     totalTexts,
@@ -498,51 +504,28 @@ const FolderUploader = (): React.ReactElement => {
     }
   };
 
-  const retrieveThreadFiles = (files: FileList | null) => {
-    setThreadsUploading(true);
-    let threadCount = 0;
-    if (files) {
-      const jsonFiles = [...files].filter((item) => item.type === 'application/json');
-      jsonFiles.forEach((file) => {
-        if (file.webkitRelativePath.includes('threads_and_replies')) {
-          FileUtils.fileToDataUri(file).then((dataUri: any) => {
-            if (dataUri) {
-              fetch(dataUri.toString())
-                .then((response) => response.json())
-                .then((data) => {
-                  threadCount = data.text_post_app_text_posts.length;
-                })
-                .then(() => {
-                  setThreadsUploading(false);
-                  setThreadsUploaded(true);
-                  dispatch(contentActions.setThreadDataUploaded(true));
-                  dispatch(contentActions.setThreadsInfo(threadCount));
-                });
-            }
-          });
-        }
-      });
-      if (
-        jsonFiles.filter((file) =>
-          file.webkitRelativePath.includes('threads_and_replies'),
-        ).length === 0
-      ) {
-        setThreadsUploading(false);
-        setThreadsUploaded(true);
-      }
-    }
-  };
+  const isContinueDisabled =
+    (!isChatDataUploaded &&
+      !isFollowDataUploaded &&
+      !isLikedPostDataUploaded &&
+      !isPostDataUploaded &&
+      !isSavedPostDataUploaded) ||
+    inboxUploading ||
+    likesUploading ||
+    savesUploading ||
+    contentUploading ||
+    followerUploading;
 
   return (
-    <div className="w-full flex flex-col justify-center items-center">
+    <div className="w-full flex flex-col justify-center items-center pb-80">
       <SectionTitle title="Upload your folders" />
-      <div className="py-16 w-2/3">
+      <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-red-400 to-red-600">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-col justify-start items-start">
-            <h3 className="text-base text-orange-500 font-martian">
+            <h3 className="text-5xl text-red-900 font-vinasans">
               Upload content info folder
             </h3>
-            <pre className="text-sm text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > content folder`}</pre>
+            <pre className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > content folder`}</pre>
           </div>
           <UploadButton
             retrieveFiles={(files: FileList | null) => retrieveContentFiles(files)}
@@ -551,13 +534,13 @@ const FolderUploader = (): React.ReactElement => {
           />
         </div>
       </div>
-      <div className="py-16 w-2/3">
+      <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-cyan-400 to-cyan-600">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-col justify-start items-start">
-            <h3 className="text-base text-orange-500 font-martian">
+            <h3 className="text-5xl text-cyan-900 font-vinasans">
               Upload followers/following folder
             </h3>
-            <pre className="text-sm text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > followers_and_following folder`}</pre>
+            <pre className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > followers_and_following folder`}</pre>
           </div>
           <UploadButton
             retrieveFiles={(files: FileList | null) => retrieveFollowFiles(files)}
@@ -566,13 +549,13 @@ const FolderUploader = (): React.ReactElement => {
           />
         </div>
       </div>
-      <div className="py-16 w-2/3">
+      <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-yellow-400 to-yellow-600">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-col justify-start items-start">
-            <h3 className="text-base text-orange-500 font-martian">
+            <h3 className="text-5xl text-yellow-900 font-vinasans">
               Upload inbox folder
             </h3>
-            <pre className="text-sm text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > messages > inbox folder`}</pre>
+            <pre className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > messages > inbox folder`}</pre>
           </div>
           <UploadButton
             retrieveFiles={(files: FileList | null) => retrieveInboxFiles(files)}
@@ -581,13 +564,11 @@ const FolderUploader = (): React.ReactElement => {
           />
         </div>
       </div>
-      <div className="py-16 w-2/3">
+      <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-green-400 to-green-600">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-col justify-start items-start">
-            <h3 className="text-base text-orange-500 font-martian">
-              Upload likes folder
-            </h3>
-            <pre className="text-sm text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > likes folder`}</pre>
+            <h3 className="text-5xl text-green-900 font-vinasans">Upload likes folder</h3>
+            <pre className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > likes folder`}</pre>
           </div>
           <UploadButton
             retrieveFiles={(files: FileList | null) => retrieveLikesFiles(files)}
@@ -596,13 +577,13 @@ const FolderUploader = (): React.ReactElement => {
           />
         </div>
       </div>
-      <div className="py-16 w-2/3">
+      <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-violet-400 to-violet-600">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-col justify-start items-start">
-            <h3 className="text-base text-orange-500 font-martian">
+            <h3 className="text-5xl text-purple-900 font-vinasans">
               Upload saved folder
             </h3>
-            <pre className="text-sm text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > saved folder`}</pre>
+            <pre className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > saved folder`}</pre>
           </div>
           <UploadButton
             retrieveFiles={(files: FileList | null) => retrieveSavedFiles(files)}
@@ -611,42 +592,45 @@ const FolderUploader = (): React.ReactElement => {
           />
         </div>
       </div>
-      <div className="py-16 w-2/3">
-        <div className="flex flex-row justify-between items-center">
-          <div className="flex flex-col justify-start items-start">
-            <h3 className="text-base text-orange-500 font-martian">
-              Upload threads folder
-            </h3>
-            <pre className="text-sm text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > threads folder`}</pre>
-          </div>
-          <UploadButton
-            retrieveFiles={(files: FileList | null) => retrieveThreadFiles(files)}
-            hasUploaded={threadsUploaded}
-            isUploading={threadsUploading}
-          />
-        </div>
-      </div>
 
       <div className="flex flex-col items-center">
         <button
-          className={`relative w-36 h-16 mt-16 rounded-full flex flex-col items-center justify-center bg-orange-500`}
+          className={`relative w-54 h-16 mt-16 rounded-sm flex flex-col items-center justify-center ${
+            isContinueDisabled
+              ? 'pattern-green-100 pattern-bg-green-200'
+              : 'pattern-green-400 pattern-bg-green-500'
+          } pattern-wavy pattern-size-4 pattern-opacity-100 shadow-white shadow-[5px_5px_0_0]`}
           onClick={() => {
+            window.scrollTo({ top: 0 });
             dispatch(userActions.setIsNewUser(false));
           }}
+          disabled={isContinueDisabled}
         >
-          <p className="text-lg leading-none">Continue</p>
+          <p className="text-2xl font-poppins leading-none font-bold">Continue</p>
         </button>
       </div>
       <div className="flex flex-col items-center">
         <button
-          className={`relative w-36 h-10 mt-16 rounded-full flex flex-col items-center justify-center bg-orange-500`}
+          className="relative w-36 h-10 mt-16 flex flex-col items-center justify-center bg-red-400 rounded-none shadow-white shadow-[5px_5px_0_0]"
           onClick={() => {
+            window.scrollTo({ top: 0 });
             dispatch(resetUserSlice());
             dispatch(resetChatSlice());
             dispatch(resetContentSlice());
+            setContentUploaded(false);
+            setContentUploading(false);
+            setFollowerUploaded(false);
+            setFollowerUploading(false);
+            setFollowingUploaded(false);
+            setInboxUploaded(false);
+            setInboxUploading(false);
+            setLikesUploaded(false);
+            setLikesUploading(false);
+            setSavesUploaded(false);
+            setSavesUploading(false);
           }}
         >
-          <p className="text-lg leading-none">Reset</p>
+          <p className="text-lg leading-none font-medium font-poppins">Reset</p>
         </button>
       </div>
     </div>

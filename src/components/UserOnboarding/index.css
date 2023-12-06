@@ -40,3 +40,15 @@
     background-position: 0% 96%;
   }
 }
+
+.steps-carousel {
+  scrollbar-width: none; /* Firefox */
+  scrollbar-color: transparent transparent; /* Firefox */
+  /* Hide scrollbar for other browsers (e.g., Chrome, Safari) */
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+}

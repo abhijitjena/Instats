@@ -8,6 +8,7 @@ module.exports = {
         poppins: ['Poppins', 'sans-serif'],
         vinasans: ['Vina Sans', 'sans-serif'],
         pikachu: ['Unbounded', 'sans-serif'],
+        ultra: ['Ultra', 'sans-serif'],
       },
     },
   },
