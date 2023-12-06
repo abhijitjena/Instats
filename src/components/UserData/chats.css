@@ -4,7 +4,7 @@
   -webkit-text-fill-color: transparent;
 }
 .chat-1-div {
-  background: -webkit-linear-gradient(45deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+  background: -webkit-linear-gradient(45deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
   filter: blur(20px);
 }
 
@@ -12,7 +12,7 @@
   padding-right: 2rem;
   overflow: auto;
   overflow-y: hidden;
-  
+
   scrollbar-width: none; /* Firefox */
   scrollbar-color: transparent transparent; /* Firefox */
   /* Hide scrollbar for other browsers (e.g., Chrome, Safari) */

@@ -3,7 +3,6 @@
   cursor: url('../resources/cursor.png') 25 41, pointer;
 }
 
-
 @keyframes slideup {
   0% {
     transform: translate3d(0, 0, 0);
@@ -27,12 +26,9 @@
   width: 100px; /* Adjust the size of the blurred area */
   height: 100px; /* Adjust the size of the blurred area */
   border-radius: 50%;
-  background: linear-gradient(
-    217deg,
-    rgba(255, 122, 0, 0.8),
-    rgba(255, 0, 0, 0) 70.71%
-  ), linear-gradient(127deg, rgba(254, 0, 104, 0.8), rgba(0, 255, 0, 0) 70.71%),
-  linear-gradient(336deg, rgba(211, 0, 197, 0.8), rgba(0, 0, 255, 0) 70.71%); /* Adjust the color and transparency */
+  background: linear-gradient(217deg, rgba(255, 122, 0, 0.8), rgba(255, 0, 0, 0) 70.71%),
+    linear-gradient(127deg, rgba(254, 0, 104, 0.8), rgba(0, 255, 0, 0) 70.71%),
+    linear-gradient(336deg, rgba(211, 0, 197, 0.8), rgba(0, 0, 255, 0) 70.71%); /* Adjust the color and transparency */
   pointer-events: none;
   mix-blend-mode: screen; /* Blend mode for the light effect */
   filter: blur(10px); /* Adjust the blur amount */
