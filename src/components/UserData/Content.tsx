@@ -11,7 +11,7 @@ import sleepyCat from '../../resources/cats/sleepy2.gif';
 const Content = (): ReactElement => {
   const contentHistory = useSelector(ContentSelectors.getContentData);
   const content23 = { posts: 0, reels: 0, stories: 0 };
-  if (Object.hasOwn(contentHistory, '2023'))
+  if (Object.prototype.hasOwnProperty.call(contentHistory, '2023'))
     Object.keys(contentHistory['2023']).forEach((month) => {
       content23.posts += contentHistory['2023'][month].posts;
       content23.reels += contentHistory['2023'][month].reels;

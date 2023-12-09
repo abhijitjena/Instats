@@ -26,7 +26,7 @@ const userSlice = createSlice({
     setFollowerHistory(state, action: PayloadAction<{ [year: string]: number }>) {
       const prevFollow = state.followHistory;
       Object.keys(action.payload).forEach((year) => {
-        if (Object.hasOwn(prevFollow.followerHistory, year)) {
+        if (Object.prototype.hasOwnProperty.call(prevFollow.followerHistory, year)) {
           prevFollow.followerHistory[year] =
             prevFollow.followerHistory[year] + action.payload[year];
         } else
@@ -40,7 +40,7 @@ const userSlice = createSlice({
     setFollowingHistory(state, action: PayloadAction<{ [year: string]: number }>) {
       const prevFollow = state.followHistory;
       Object.keys(action.payload).forEach((year) => {
-        if (Object.hasOwn(prevFollow.followingHistory, year)) {
+        if (Object.prototype.hasOwnProperty.call(prevFollow.followingHistory, year)) {
           prevFollow.followingHistory[year] =
             prevFollow.followingHistory[year] + action.payload[year];
         } else

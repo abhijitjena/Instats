@@ -15,12 +15,9 @@
 .databg2 {
   background-image: url('../resources/bg.png');
   background-size: 19em 14em;
-  /* cursor: url('../resources/cursor.png'), pointer; */
-  /* animation: slideup 60s linear infinite; */
 }
 
 .blurred-area {
-  /* cursor: url('../resources/cursor.png'), pointer; */
   content: '';
   position: fixed;
   width: 100px; /* Adjust the size of the blurred area */

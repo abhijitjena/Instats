@@ -1,6 +1,6 @@
 import './index.css';
 
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import nyanCat from '../../resources/cats/nyanCat.gif';
 import pikachu from '../../resources/cats/pikachu.gif';

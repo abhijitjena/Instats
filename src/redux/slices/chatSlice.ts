@@ -18,21 +18,26 @@ const chatSlice = createSlice({
   reducers: {
     setChatInfo(state, action: PayloadAction<ISingleChat>) {
       let prevChats = state.chatsData;
-      if (!Object.hasOwn(prevChats, action.payload.threadName))
+      if (!Object.prototype.hasOwnProperty.call(prevChats, action.payload.threadName))
         prevChats = { ...prevChats, [action.payload.threadName]: action.payload };
       else {
         const prevChatData = prevChats[action.payload.threadName];
         prevChatData.totalReels = prevChatData.totalReels + action.payload.totalReels;
         prevChatData.totalTexts = prevChatData.totalTexts + action.payload.totalTexts;
         Object.keys(action.payload.dateMap).forEach((payloadYear) => {
-          if (!Object.hasOwn(prevChatData.dateMap, payloadYear))
+          if (!Object.prototype.hasOwnProperty.call(prevChatData.dateMap, payloadYear))
             prevChatData.dateMap = {
               ...prevChatData.dateMap,
               [payloadYear]: action.payload.dateMap[payloadYear],
             };
           else {
             Object.keys(action.payload.dateMap[payloadYear]).forEach((payloadMonth) => {
-              if (!Object.hasOwn(prevChatData.dateMap[payloadYear], payloadMonth))
+              if (
+                !Object.prototype.hasOwnProperty.call(
+                  prevChatData.dateMap[payloadYear],
+                  payloadMonth,
+                )
+              )
                 prevChatData.dateMap[payloadYear] = {
                   ...prevChatData.dateMap[payloadYear],
                   [payloadMonth]: action.payload.dateMap[payloadYear][payloadMonth],
@@ -41,7 +46,7 @@ const chatSlice = createSlice({
                 Object.keys(action.payload.dateMap[payloadYear][payloadMonth]).forEach(
                   (payloadDate) => {
                     if (
-                      !Object.hasOwn(
+                      !Object.prototype.hasOwnProperty.call(
                         prevChatData.dateMap[payloadYear][payloadMonth],
                         payloadDate,
                       )

@@ -1,6 +1,7 @@
 import './index.css';
 
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useRef } from 'react';
+
 import bongoCat from '../../resources/cats/bongo.gif';
 
 interface IProps {
@@ -12,13 +13,18 @@ interface IProps {
 const UploadButton = (props: IProps): ReactElement => {
   const { retrieveFiles, isUploading, hasUploaded } = props;
 
-  const ctrls: {
-    [key: string]: HTMLInputElement;
-  } = {};
-
   const handleFolderUpload = () => {
-    ctrls && ctrls.fileUploader && ctrls.fileUploader.click();
+    ref && ref.current && ref.current.click();
   };
+
+  const ref = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (ref.current !== null) {
+      ref.current.setAttribute('directory', '');
+      ref.current.setAttribute('webkitdirectory', '');
+    }
+  }, [ref]);
 
   return (
     <div className="flex flex-col items-center">
@@ -27,18 +33,12 @@ const UploadButton = (props: IProps): ReactElement => {
         name="files[]"
         id="files"
         style={{ display: 'none' }}
-        ref={(fileUploaders): void => {
-          ctrls.fileUploader = fileUploaders as HTMLInputElement;
-        }}
+        ref={ref}
         multiple
-        directory=""
-        webkitdirectory=""
         onChange={(event: any) => {
-          console.log('event', event);
           retrieveFiles(event.target.files);
           event.target.value = '';
         }}
-        on
       />
       <button
         className={`relative w-24 h-10 rounded-none flex flex-col items-center justify-center z-10 shadow-black shadow-[8px_10px_0_0] ${

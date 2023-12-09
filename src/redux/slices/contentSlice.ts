@@ -38,7 +38,7 @@ const contentSlice = createSlice({
     setCreatorLikesInfo(state, action: PayloadAction<ILikedPostStats>) {
       const prevLikes = state.likedPostStats;
       Object.keys(action.payload.yearData).forEach((year) => {
-        if (Object.hasOwn(prevLikes.yearData, year)) {
+        if (Object.prototype.hasOwnProperty.call(prevLikes.yearData, year)) {
           prevLikes.yearData[year] =
             prevLikes.yearData[year] + action.payload.yearData[year];
         } else
@@ -62,7 +62,7 @@ const contentSlice = createSlice({
     setSavedPostsInfo(state, action: PayloadAction<ILikedPostStats>) {
       const prevSaves = state.savedPostStats;
       Object.keys(action.payload.yearData).forEach((year) => {
-        if (Object.hasOwn(prevSaves.yearData, year)) {
+        if (Object.prototype.hasOwnProperty.call(prevSaves.yearData, year)) {
           prevSaves.yearData[year] =
             prevSaves.yearData[year] + action.payload.yearData[year];
         } else

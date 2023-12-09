@@ -1,6 +1,6 @@
 import './UserData.css';
 
-import { ReactElement, useEffect, useRef, useState } from 'react';
+import { ReactElement, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Chats from '../components/UserData/Chats';
@@ -17,10 +17,12 @@ const UserData = (): ReactElement => {
   const blurredAreaRef = useRef(null);
   const dispatch = useDispatch();
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: any) => {
     mousePositionRef.current = { x: e.clientX, y: e.clientY };
-    blurredAreaRef.current.style.left = `${mousePositionRef.current.x - 50}px`;
-    blurredAreaRef.current.style.top = `${mousePositionRef.current.y - 50}px`;
+    if (blurredAreaRef.current) {
+      (blurredAreaRef.current as any).style.left = `${mousePositionRef.current.x - 50}px`;
+      (blurredAreaRef.current as any).style.top = `${mousePositionRef.current.y - 50}px`;
+    }
   };
 
   return (

@@ -179,7 +179,6 @@ const FolderUploader = (): React.ReactElement => {
     setFollowingUploading(true);
     const followerHistory: { [year: string]: number } = {};
     const followingHistory: { [year: string]: number } = {};
-    console.log('qwerty', files)
     if (files) {
       const jsonFiles = [...files].filter((item) => item.type === 'application/json');
       jsonFiles.forEach((file, index) => {
@@ -199,12 +198,10 @@ const FolderUploader = (): React.ReactElement => {
         ) {
           console.time(`following upload ${index}`);
           FileUtils.fileToDataUri(file).then((dataUri: any) => {
-            console.log('file', file);
             if (dataUri) {
               fetch(dataUri.toString())
                 .then((response) => response.json())
                 .then((data) => {
-                  console.log('data', data);
                   for (let i = 2018; i <= new Date().getFullYear(); i++) {
                     const followingForYear = data.relationships_following.filter(
                       (media: any) =>
@@ -357,7 +354,13 @@ const FolderUploader = (): React.ReactElement => {
       };
 
       jsonFiles.forEach((file, index) => {
-        let fileData: ISingleChat = {};
+        let fileData: ISingleChat = {
+          dateMap: {},
+          threadName: '',
+          title: '',
+          totalReels: 0,
+          totalTexts: 0,
+        };
         FileUtils.fileToDataUri(file).then((dataUri: any) => {
           if (dataUri) {
             fetch(dataUri.toString())
@@ -366,7 +369,6 @@ const FolderUploader = (): React.ReactElement => {
                 if (topChatNames.includes(data.thread_path)) {
                   const chatId = data.thread_path;
                   const title = nameDecode(data.title);
-                  console.log('title', title);
                   const chatStore: IChatDateMap = {};
                   let totalReels = 0;
                   let totalTexts = 0;

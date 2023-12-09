@@ -1,6 +1,6 @@
 import '../screens/UserData.css';
 
-import React, { ReactElement, useRef } from 'react';
+import { ReactElement, useRef } from 'react';
 
 import FolderUploader from '../components/UserOnboarding/FolderUploader';
 import Hero from '../components/UserOnboarding/Hero';
@@ -10,10 +10,12 @@ const UserOnboarding = (): ReactElement => {
   const mousePositionRef = useRef({ x: 0, y: 0 });
   const blurredAreaRef = useRef(null);
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: any) => {
     mousePositionRef.current = { x: e.clientX, y: e.clientY };
-    blurredAreaRef.current.style.left = `${mousePositionRef.current.x - 50}px`;
-    blurredAreaRef.current.style.top = `${mousePositionRef.current.y - 50}px`;
+    if (blurredAreaRef.current) {
+      (blurredAreaRef.current as any).style.left = `${mousePositionRef.current.x - 50}px`;
+      (blurredAreaRef.current as any).style.top = `${mousePositionRef.current.y - 50}px`;
+    }
   };
 
   return (

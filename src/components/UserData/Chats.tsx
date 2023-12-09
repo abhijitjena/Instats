@@ -380,7 +380,7 @@ const Chats = (): ReactElement => {
           />
         </div>
         {Object.keys(topChats[0]).length > 0 &&
-        Object.hasOwn(topChats[0], 'totalTexts') &&
+        Object.prototype.hasOwnProperty.call(topChats[0], 'totalTexts') &&
         topChats[0].totalTexts > 0 ? (
           <div className="w-4/5 h-[40rem] p-2 rounded-lg z-30">
             <div className="bg-blue-900 w-full h-[32rem] rounded-lg relative" />
@@ -440,7 +440,7 @@ const Chats = (): ReactElement => {
         ) : null}
         <div className="flex w-full flex-row items-center justify-between my-20">
           {Object.keys(topChats[1]).length > 0 &&
-          Object.hasOwn(topChats[1], 'totalTexts') &&
+          Object.prototype.hasOwnProperty.call(topChats[1], 'totalTexts') &&
           topChats[1].totalTexts > 0
             ? chatContainerMini({
                 bgColor1: 'bg-green-600',
@@ -460,7 +460,7 @@ const Chats = (): ReactElement => {
               })
             : null}
           {Object.keys(topChats[2]).length > 0 &&
-          Object.hasOwn(topChats[2], 'totalTexts') &&
+          Object.prototype.hasOwnProperty.call(topChats[2], 'totalTexts') &&
           topChats[2].totalTexts > 0
             ? chatContainerMini({
                 bgColor1: 'bg-yellow-300',
@@ -482,7 +482,7 @@ const Chats = (): ReactElement => {
         </div>
         <div className="flex w-full flex-row items-center justify-between my-20">
           {Object.keys(topChats[3]).length > 0 &&
-          Object.hasOwn(topChats[3], 'totalTexts') &&
+          Object.prototype.hasOwnProperty.call(topChats[3], 'totalTexts') &&
           topChats[3].totalTexts > 0
             ? chatContainerMini({
                 bgColor1: 'bg-blue-400',
@@ -502,7 +502,7 @@ const Chats = (): ReactElement => {
               })
             : null}
           {Object.keys(topChats[4]).length > 0 &&
-          Object.hasOwn(topChats[4], 'totalTexts') &&
+          Object.prototype.hasOwnProperty.call(topChats[4], 'totalTexts') &&
           topChats[4].totalTexts > 0
             ? chatContainerMini({
                 bgColor1: 'bg-pink-500',
