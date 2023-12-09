@@ -7,6 +7,12 @@ import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 
 import { ISingleChat } from '../../redux/interfaces/chatInterface';
 import ChatSelectors from '../../redux/selectors/chatSelector';
+import cheers from '../../resources/cats/cheers.gif';
+import hearts from '../../resources/cats/hearts.gif';
+import nyanCat2 from '../../resources/cats/nyanCat2.gif';
+import nyanCat3 from '../../resources/cats/nyanCat3.gif';
+import nyanCat4 from '../../resources/cats/nyanCat4.gif';
+import nyanCat5 from '../../resources/cats/nyanCat5.gif';
 import Glitter from '../../resources/glitter.svg?react';
 
 interface IChatContainer {
@@ -246,6 +252,26 @@ const Chats = (): ReactElement => {
           <div className="flex flex-col justify-center items-center mt-10">
             {monthlyStats(monthlyStatsPayload)}
           </div>
+          {topIndex === 2 ? (
+            <div className="chatNyan relative w-40 -top-12 z-50 overflow-x-hidden">
+              <img src={nyanCat2} width={160} height={160} alt="skates cat" />
+            </div>
+          ) : null}
+          {topIndex === 3 ? (
+            <div className="chatNyan relative w-20 top-2 z-50 overflow-x-hidden">
+              <img src={nyanCat3} width={80} height={80} alt="skates cat" />
+            </div>
+          ) : null}
+          {topIndex === 4 ? (
+            <div className="chatNyan relative w-20 top-2 z-50 overflow-x-hidden">
+              <img src={nyanCat4} width={80} height={80} alt="skates cat" />
+            </div>
+          ) : null}
+          {topIndex === 5 ? (
+            <div className="chatNyan relative w-20 top-2 z-50 overflow-x-hidden">
+              <img src={nyanCat5} width={80} height={80} alt="skates cat" />
+            </div>
+          ) : null}
         </div>
       </div>
     );
@@ -330,17 +356,20 @@ const Chats = (): ReactElement => {
   if (topChats.length > 0)
     return (
       <div className="flex flex-col items-center justify-center w-full h-[180rem]">
-        <div className="flex flex-row items-start justify-center mb-16">
+        <div className="relative top-12 z-50">
+          <img src={hearts} width={220} height={220} alt="cheers cat" />
+        </div>
+        <div className="flex flex-row items-start justify-center mb-32">
           <Glitter
             width={50}
             height={50}
             style={{ position: 'relative', right: '1vw', bottom: '3vh', fill: '#ffd701' }}
           />
           <div className="flex flex-col items-start justify-center">
-            <p className="text-4xl font-extrabold italic font-pikachu align-middle text-white z-20">
+            <p className="text-5xl font-extrabold italic font-pikachu align-middle text-white z-20">
               {"YOUR INSTAGRAM BESTIES '23"}
             </p>
-            <p className="gr-bestie text-4xl font-extrabold italic text-white font-pikachu align-middle relative left-1 bottom-[4.7rem] z-10">
+            <p className="gr-bestie text-5xl font-extrabold italic text-white font-pikachu align-middle relative left-1 bottom-[5rem] z-10">
               {"YOUR INSTAGRAM BESTIES '23"}
             </p>
           </div>
@@ -375,7 +404,7 @@ const Chats = (): ReactElement => {
                   </div>
                 </div>
               </div>
-              <div className="w-full flex flex-row items-center justify-between self-center px-[10%]">
+              <div className="w-full flex flex-row items-center justify-between self-center px-[10%] relative">
                 <div className="w-2/5 relative flex flex-col items-center justify-center p-15">
                   <p className="font-pikachu text-5xl font-extrabold text-blue-900 m-0">
                     {topChats[0].totalTexts}
@@ -383,6 +412,9 @@ const Chats = (): ReactElement => {
                   <p className="font-poppins text-yellow-400 text-3xl font-semibold m-1">
                     Texts
                   </p>
+                </div>
+                <div className="absolute cheercat">
+                  <img src={cheers} width={280} height={280} alt="cheers cat" />
                 </div>
                 {topChats[0].totalReels ? (
                   <div className="w-2/5 relative flex flex-col items-center justify-center p-15">

@@ -23,3 +23,41 @@
     background-color: transparent;
   }
 }
+
+.chatNyan {
+  -webkit-animation: chatNyan 20s linear infinite;
+  -moz-animation: chatNyan 20s linear infinite;
+  animation: chatNyan 20s linear infinite;
+  overflow-x: hidden;
+}
+
+@-webkit-keyframes chatNyan {
+  0% {
+    left: 5%;
+  }
+  100% {
+    left: 85%;
+  }
+}
+
+@-moz-keyframes chatNyan {
+  0% {
+    left: 5%;
+  }
+  100% {
+    left: 85%;
+  }
+}
+
+@keyframes chatNyan {
+  0% {
+    left: 5%;
+  }
+  100% {
+    left: 85%;
+  }
+}
+
+.cheercat {
+  left: calc(50% - 140px);
+}

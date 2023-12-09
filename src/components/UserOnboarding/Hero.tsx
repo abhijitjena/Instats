@@ -2,25 +2,57 @@ import './index.css';
 
 import React, { ReactElement } from 'react';
 
+import nyanCat from '../../resources/cats/nyanCat.gif';
+import pikachu from '../../resources/cats/pikachu.gif';
+import toast from '../../resources/cats/toast.gif';
+import waffle from '../../resources/cats/waffle.gif';
+
 const Hero = (): ReactElement => {
   return (
-    <div className="w-full bg-slate-950 h-[40rem] flex flex-col justify-start items-start">
-      <div className="hero-bg w-full h-[30rem] flex flex-col justify-center items-start pl-20 pb-20">
-        {/* <h1 className="w-64 inline-block text-red-600">Welcome to Instats</h1> */}
-        <h1 className="w-3/5 font-poppins text-6xl font-extrabold text-white text-left z-20 mt-20">
-          Get interesting stats for your Instagram data
+    <div className="hero-bg w-full h-[60rem] flex flex-col justify-center items-center">
+      <div className="title-bg w-1/2 mb-14 h-96">
+        <div className="w-36 h-36 ttl-shp-1 rounded-[4.5rem] absolute" />
+        <h1 className="title-txt text-[18rem] leading-[14rem] w-[40rem] h-[12rem] inline-block font-cookie text-white text-center align-middle absolute">
+          Instats
         </h1>
-        <pre className="w-3/5 font-martian text-3xl pt-6 font-medium text-indigo-950 text-left z-20">
-          {'Browser based.\nCompletely offline.'}
-        </pre>
-        <h3 className="w-3/5 font-poppins text-xs font-thin pt-3 text-white text-left z-20">
-          {"(I literally don't have a server)"}
-        </h3>
+        <div className="w-36 h-36 ttl-shp-2 rounded-[4.5rem] absolute" />
+        <div className="w-36 h-36 ttl-shp-3 rounded-[4.5rem] absolute" />
+        <div className="w-36 h-36 ttl-shp-4 rounded-[4.5rem] absolute" />
+        <div className="w-36 h-36 ttl-shp-5 rounded-[4.5rem] absolute" />
+        <div className="w-36 h-36 ttl-shp-6 rounded-[4.5rem] absolute" />
+        <div className="w-36 h-36 ttl-shp-7 rounded-[4.5rem] absolute" />
       </div>
-      <div className="w-full absolute top-[20rem] h-0 border-b-[10em] border-b-slate-950 border-l-transparent border-l-[100vw]" />
-      <button className="ml-20 bottom-10 relative rounded-full">
-        <p className="text-base leading-none my-3">{"Let's Get Started"}</p>
-      </button>
+      <h1 className="w-3/5 font-martian opacity-95 text-2xl text-center text-white z-20">
+        Fun stats for your Instagram data
+      </h1>
+      <img
+        src={nyanCat}
+        width={80}
+        height={80}
+        alt="nyan cat"
+        className="nyanCat absolute"
+      />
+      <img
+        src={pikachu}
+        width={80}
+        height={80}
+        alt="pikachu cat"
+        className="pikachu absolute"
+      />
+      <img
+        src={waffle}
+        width={80}
+        height={80}
+        alt="waffle cat"
+        className="waffle absolute"
+      />
+      <img
+        src={toast}
+        width={80}
+        height={80}
+        alt="toast cat"
+        className="toast absolute"
+      />
     </div>
   );
 };

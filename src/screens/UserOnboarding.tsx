@@ -23,6 +23,7 @@ const UserOnboarding = (): ReactElement => {
     >
       <div className="databg2 w-full h-full min-h-screen flex flex-col justify-start items-center">
         <Hero />
+        <div className="mb-48" />
         <PreRequisites />
         <FolderUploader />
       </div>

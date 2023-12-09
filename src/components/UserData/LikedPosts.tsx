@@ -5,6 +5,9 @@ import { useSelector } from 'react-redux';
 import { RadialBar, RadialBarChart, Tooltip } from 'recharts';
 
 import ContentSelectors from '../../redux/selectors/contentSelector';
+import catSkates from '../../resources/cats/catSkates.gif';
+import catLike from '../../resources/cats/like.gif';
+import catLikes from '../../resources/cats/likes.gif';
 
 const LikedPosts = (): ReactElement => {
   const likedPosts = useSelector(ContentSelectors.getLikedPostsByCreator);
@@ -32,10 +35,15 @@ const LikedPosts = (): ReactElement => {
         </div>
         <div className="flex flex-row items-center justify-between w-full px-20 h-[30rem]">
           {likedPosts.yearData['2023'] > 0 ? (
-            <div className="flex flex-col w-[36%] items-center justify-center">
-              <p className="text-purple-800 text-9xl font-ultra">
-                {likedPosts.yearData['2023']}
-              </p>
+            <div className="flex flex-col w-[36%] h-16 items-center justify-center">
+              <div className="flex flex-row items-center justify-center relative">
+                <p className="text-purple-800 text-9xl font-ultra">
+                  {likedPosts.yearData['2023']}
+                </p>
+                <div className="absolute z-50 -right-24">
+                  <img src={catLike} width={140} height={140} alt="likes cat" />
+                </div>
+              </div>
               <p className="text-rose-400 text-3xl font-pikachu">Posts liked in 2023</p>
             </div>
           ) : null}
@@ -107,6 +115,9 @@ const LikedPosts = (): ReactElement => {
           likedPosts.topCreators[0].length > 0 &&
           likedPosts.topCreators[0][1] > 0 ? (
             <div className="w-3/5 mx-[20%] items-center justify-center flex">
+              <div className="relative -top-36 left-[78%] z-50">
+                <img src={catLikes} width={140} height={140} alt="likes cat" />
+              </div>
               <div className="w-full h-40 shadow-yellow-500 shadow-[0_10px_0_0] rounded-xl p-8 relative flex flex-row items-center justify-between pattern-wavy pattern-yellow-100 pattern-opacity-100 pattern-bg-yellow-400 pattern-size-8">
                 <p className="font-vinasans text-white text-[4rem] drop-shadow-[0_2px_2px_rgba(207,163,24,1)]">
                   {likedPosts.topCreators[0][0]}
@@ -157,7 +168,10 @@ const LikedPosts = (): ReactElement => {
             ) : null}
           </div>
         </div>
-        <div className="flex flex-row items-center justify-center w-full my-12 px-20 flex-wrap">
+        <div className="flex flex-row items-center justify-center w-full my-12 px-20 flex-wrap relative">
+          <div className="skateCat absolute top-10 z-50">
+            <img src={catSkates} width={220} height={220} alt="skates cat" />
+          </div>
           {likedPosts.topCreators.slice(3, likedPosts.topCreators.length).map((value) => {
             if (value[1] > 0)
               return (

@@ -14,6 +14,8 @@ import { chatActions, resetChatSlice } from '../../redux/slices/chatSlice';
 import { contentActions, resetContentSlice } from '../../redux/slices/contentSlice';
 import { resetUserSlice, userActions } from '../../redux/slices/userSlice';
 import { useAppDispatch } from '../../redux/store';
+import jumpCat from '../../resources/cats/jump.gif';
+import playCat from '../../resources/cats/play.gif';
 import { FileUtils } from '../../utils/FileUtils';
 import SectionTitle from '../SectionTitle';
 import UploadButton from '../UploadButton';
@@ -177,6 +179,7 @@ const FolderUploader = (): React.ReactElement => {
     setFollowingUploading(true);
     const followerHistory: { [year: string]: number } = {};
     const followingHistory: { [year: string]: number } = {};
+    console.log('qwerty', files)
     if (files) {
       const jsonFiles = [...files].filter((item) => item.type === 'application/json');
       jsonFiles.forEach((file, index) => {
@@ -519,7 +522,7 @@ const FolderUploader = (): React.ReactElement => {
   return (
     <div className="w-full flex flex-col justify-center items-center pb-80">
       <SectionTitle title="Upload your folders" />
-      <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-red-400 to-red-600">
+      <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-red-400 to-red-600 h-44">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-col justify-start items-start">
             <h3 className="text-5xl text-red-900 font-vinasans">
@@ -534,7 +537,7 @@ const FolderUploader = (): React.ReactElement => {
           />
         </div>
       </div>
-      <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-cyan-400 to-cyan-600">
+      <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-cyan-400 to-cyan-600 h-44">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-col justify-start items-start">
             <h3 className="text-5xl text-cyan-900 font-vinasans">
@@ -548,8 +551,15 @@ const FolderUploader = (): React.ReactElement => {
             isUploading={followerUploading || followingUploading}
           />
         </div>
+        <img
+          src={playCat}
+          width={320}
+          height={320}
+          alt="scratch cat"
+          className="relative -top-[4.3rem] left-[60%]"
+        />
       </div>
-      <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-yellow-400 to-yellow-600">
+      <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-yellow-400 to-yellow-600 h-44">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-col justify-start items-start">
             <h3 className="text-5xl text-yellow-900 font-vinasans">
@@ -564,7 +574,7 @@ const FolderUploader = (): React.ReactElement => {
           />
         </div>
       </div>
-      <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-green-400 to-green-600">
+      <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-green-400 to-green-600 h-44">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-col justify-start items-start">
             <h3 className="text-5xl text-green-900 font-vinasans">Upload likes folder</h3>
@@ -576,8 +586,15 @@ const FolderUploader = (): React.ReactElement => {
             isUploading={likesUploading}
           />
         </div>
+        <img
+          src={jumpCat}
+          width={240}
+          height={240}
+          alt="scratch cat"
+          className="relative -top-[3.3rem] left-[65%]"
+        />
       </div>
-      <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-violet-400 to-violet-600">
+      <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-violet-400 to-violet-600 h-44">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-col justify-start items-start">
             <h3 className="text-5xl text-purple-900 font-vinasans">
@@ -613,7 +630,7 @@ const FolderUploader = (): React.ReactElement => {
         <button
           className="relative w-36 h-10 mt-16 flex flex-col items-center justify-center bg-red-400 rounded-none shadow-white shadow-[5px_5px_0_0]"
           onClick={() => {
-            window.scrollTo({ top: 0 });
+            // window.scrollTo({ top: 0 });
             dispatch(resetUserSlice());
             dispatch(resetChatSlice());
             dispatch(resetContentSlice());

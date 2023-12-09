@@ -1,5 +1,8 @@
 import React, { ReactElement } from 'react';
 
+import laptop from '../../resources/cats/laptop.gif';
+import scratch from '../../resources/cats/scratch.gif';
+import sleepyCat1 from '../../resources/cats/sleepy1.gif';
 import uploadStep1 from '../../resources/uploadSteps/IMG_1159.png';
 import uploadStep2 from '../../resources/uploadSteps/IMG_1160.png';
 import uploadStep3 from '../../resources/uploadSteps/IMG_1161.png';
@@ -13,7 +16,6 @@ import uploadStep10 from '../../resources/uploadSteps/IMG_1169.png';
 import uploadStep11 from '../../resources/uploadSteps/IMG_1170.png';
 import uploadStep12 from '../../resources/uploadSteps/IMG_1171.png';
 import SectionTitle from '../SectionTitle';
-
 interface IUploadStep {
   pattern: string;
   imgSrc: string;
@@ -41,9 +43,18 @@ const PreRequisites = (): ReactElement => {
   };
 
   return (
-    <div className="my-10 w-2/3 flex flex-col justify-center items-center">
+    <div className="my-10 w-full flex flex-col justify-center items-center">
       <SectionTitle title="Before we begin" />
-      <div className="w-full my-14 h-[36rem] pattern-zigzag-3d pattern-cyan-300 pattern-bg-cyan-400 pattern-opacity-100 p-16">
+      <div>
+        <img
+          src={sleepyCat1}
+          width={160}
+          height={160}
+          alt="sleepy cat"
+          className="relative top-32 left-72"
+        />
+      </div>
+      <div className="w-2/3 my-14 h-[36rem] pattern-zigzag-3d pattern-cyan-300 pattern-bg-cyan-400 pattern-opacity-100 p-16">
         <p className="text-cyan-800 font-bold text-lg font-poppins mb-10">
           {
             'Instagram allows you to access your data through a download request. This tool uses the data to calculate and present interesting stats that is not available on the official app.'
@@ -67,7 +78,14 @@ const PreRequisites = (): ReactElement => {
       </div>
       <div className="mt-40" />
       <SectionTitle title="How to download your data" />
-      <div className="flex steps-carousel flex-row justify-start items-start w-[100vw] overflow-x-auto">
+      <img
+        src={laptop}
+        width={160}
+        height={160}
+        alt="lappy cat"
+        style={{ marginTop: 60 }}
+      />
+      <div className="flex steps-carousel flex-row justify-start items-start w-full overflow-x-auto">
         {uploadStepView({
           imgAlt: 'Image of Instagram profile with Settings and privacy highlighted',
           imgSrc: uploadStep1,
@@ -254,7 +272,7 @@ const PreRequisites = (): ReactElement => {
           },
         })}
       </div>
-      <div className="mb-40 mt-10 px-16 py-10 bg-lime-300">
+      <div className="mb-40 w-2/3 h-56 mt-10 px-16 py-10 bg-lime-300">
         <p className="text-lime-700 font-poppins font-bold text-lg">
           Once these steps are over, Instagram will notify over your email id when the
           requested data is available. Please use a web browser to open the link in the
@@ -264,6 +282,13 @@ const PreRequisites = (): ReactElement => {
           The link will redirect you to Instagram where you need to login and download
           from the link provided.
         </p>
+        <img
+          src={scratch}
+          width={140}
+          height={140}
+          alt="scratch cat"
+          className="relative -top-[10rem] left-[101%]"
+        />
       </div>
     </div>
   );

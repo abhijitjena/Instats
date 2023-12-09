@@ -2,9 +2,10 @@ import './likedPosts.css';
 
 import { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
-import { RadialBar, RadialBarChart, Tooltip } from 'recharts';
 
 import ContentSelectors from '../../redux/selectors/contentSelector';
+import saveCat from '../../resources/cats/save.gif';
+import sittingCat from '../../resources/cats/sit.gif';
 
 const SavedPosts = (): ReactElement => {
   const savedPosts = useSelector(ContentSelectors.getSavedPostStats);
@@ -18,12 +19,13 @@ const SavedPosts = (): ReactElement => {
     });
   });
 
-  let tooltip: any;
-
   if (saveHistoryData.length === 0) return <div></div>;
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-[120rem] mt-20">
+    <div className="flex flex-col items-center justify-center w-full h-[120rem] mt-60 relative">
+      <div className="absolute top-4 left-[56%] z-50">
+        <img src={saveCat} width={140} height={140} alt="save cat" />
+      </div>
       <div className="pattern-bg-green-400 pattern-size-4 pattern-green-200 pattern-dots pattern-opacity-100 w-full h-[110rem] rounded-lg z-30 shadow-green-600 shadow-[0_20px_0_0]">
         <div className="flex flex-col items-center justify-center relative bottom-14 right-6">
           <p className="text-4xl text-purple-800 font-vinasans align-middle bg-white w-96 rounded-full leading-[4.5rem] z-50 border-amber-300 border-[4px] shadow-green-800 shadow-[1rem_1rem_0_0]">
@@ -41,70 +43,14 @@ const SavedPosts = (): ReactElement => {
               </p>
             </div>
           ) : null}
-          {/* <div className="h-[2px] w-[20%] bg-orange-200" /> */}
-          {/* <div className="flex w-[54%] flex-col items-center justify-center bg-yellow-100 rounded-lg h-96">
-            <RadialBarChart
-              width={600}
-              height={600}
-              innerRadius="10%"
-              outerRadius="100%"
-              data={saveHistoryData}
-              startAngle={180}
-              endAngle={0}
-              cx={'50%'}
-              cy={'70%'}
-              barGap={20}
-              barSize={35}
-            >
-              <RadialBar
-                label={{
-                  position: 'insideStart',
-                  fill: '#661040',
-                  fontWeight: 'bold',
-                  fontFamily: 'Poppins',
-                  fontSize: 15,
-                }}
-                background={{ fill: '#f7df7e', opacity: 0.3 }}
-                dataKey="saves"
-                name="year"
-                onMouseOver={() => (tooltip = 'saves')}
-              />
-              <Tooltip
-                contentStyle={{ fontFamily: 'Poppins' }}
-                content={({ payload }) => {
-                  // if (!active || !tooltip) return null;
-                  if (payload) {
-                    for (const bar of payload)
-                      if (bar.dataKey === tooltip)
-                        return (
-                          <div
-                            style={{
-                              backgroundColor: 'white',
-                              borderRadius: 4,
-                            }}
-                          >
-                            <p
-                              style={{
-                                fontFamily: 'Poppins',
-                                color: '#ea580c',
-                                fontWeight: 'normal',
-                                lineHeight: 3,
-                                margin: 10,
-                              }}
-                            >{`${bar.payload.name}: ${bar.payload.saves} saves`}</p>
-                          </div>
-                        );
-                  }
-                  return null;
-                }}
-              />
-            </RadialBarChart>
-          </div> */}
         </div>
         <p className="text-5xl text-purple-700 mt-10 font-vinasans">
           Creator posts you saved this year
         </p>
-        <div className="flex flex-row items-center justify-center w-full my-12 px-20 flex-wrap">
+        <div className="flex flex-row items-center justify-center w-full my-12 px-20 flex-wrap relative">
+          <div className="absolute -top-20 z-50">
+            <img src={sittingCat} width={140} height={140} alt="save cat" />
+          </div>
           {savedPosts.topCreators.map((value) => {
             if (value[1] > 0)
               return (

@@ -30,3 +30,46 @@
   width: 200px;
   height: 200px;
 }
+
+.skateCat {
+  -webkit-animation: skateCat 20s linear infinite;
+  -moz-animation: skateCat 20s linear infinite;
+  animation: skateCat 20s linear infinite;
+  overflow-x: hidden;
+}
+
+@-webkit-keyframes skateCat {
+  0% {
+    left: 5%;
+  }
+  50% {
+    left: 85%;
+  }
+  100% {
+    left: 5%;
+  }
+}
+
+@-moz-keyframes skateCat {
+  0% {
+    left: 5%;
+  }
+  50% {
+    left: 85%;
+  }
+  100% {
+    left: 5%;
+  }
+}
+
+@keyframes skateCat {
+  0% {
+    left: 5%;
+  }
+  50% {
+    left: 85%;
+  }
+  100% {
+    left: 5%;
+  }
+}

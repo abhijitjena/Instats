@@ -9,6 +9,7 @@ module.exports = {
         vinasans: ['Vina Sans', 'sans-serif'],
         pikachu: ['Unbounded', 'sans-serif'],
         ultra: ['Ultra', 'sans-serif'],
+        cookie: ['Cookie', 'sans-serif'],
       },
     },
   },

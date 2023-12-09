@@ -1,0 +1,33 @@
+.rollingcat {
+  -webkit-animation: rollingcat 20s linear infinite;
+  -moz-animation: rollingcat 20s linear infinite;
+  animation: rollingcat 20s linear infinite;
+  overflow-x: hidden;
+}
+
+@-webkit-keyframes rollingcat {
+  100% {
+    left: 5%;
+  }
+  0% {
+    left: 85%;
+  }
+}
+
+@-moz-keyframes rollingcat {
+  100% {
+    left: 5%;
+  }
+  0% {
+    left: 85%;
+  }
+}
+
+@keyframes rollingcat {
+  100% {
+    left: 5%;
+  }
+  0% {
+    left: 85%;
+  }
+}

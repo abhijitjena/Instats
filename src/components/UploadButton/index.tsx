@@ -1,6 +1,7 @@
 import './index.css';
 
 import { ReactElement } from 'react';
+import bongoCat from '../../resources/cats/bongo.gif';
 
 interface IProps {
   retrieveFiles: (files: FileList | null) => void;
@@ -33,8 +34,11 @@ const UploadButton = (props: IProps): ReactElement => {
         directory=""
         webkitdirectory=""
         onChange={(event: any) => {
+          console.log('event', event);
           retrieveFiles(event.target.files);
+          event.target.value = '';
         }}
+        on
       />
       <button
         className={`relative w-24 h-10 rounded-none flex flex-col items-center justify-center z-10 shadow-black shadow-[8px_10px_0_0] ${
@@ -43,7 +47,13 @@ const UploadButton = (props: IProps): ReactElement => {
         onClick={() => handleFolderUpload()}
       >
         {isUploading ? (
-          <span className="upload-loader"></span>
+          <img
+            src={bongoCat}
+            width={200}
+            height={200}
+            alt="bongo cat"
+            // className="relative -top-[3.3rem] left-[65%]"
+          />
         ) : hasUploaded ? (
           <p className="text-base font-medium leading-none text-white">Done</p>
         ) : (

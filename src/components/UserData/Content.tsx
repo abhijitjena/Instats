@@ -1,8 +1,12 @@
-import React, { ReactElement } from 'react';
+import './content.css';
+
+import { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 import ContentSelectors from '../../redux/selectors/contentSelector';
+import rollingCat from '../../resources/cats/rollingcat.gif';
+import sleepyCat from '../../resources/cats/sleepy2.gif';
 
 const Content = (): ReactElement => {
   const contentHistory = useSelector(ContentSelectors.getContentData);
@@ -49,13 +53,18 @@ const Content = (): ReactElement => {
 
   return (
     <div className="flex flex-col items-center justify-center w-full my-80">
-      <div className="pattern-moon pattern-bg-rose-400 pattern-rose-300 pattern-opacity-100 pattern-size-4 w-full h-[60rem] rounded-lg z-30 flex flex-col justify-start shadow-purple-700 shadow-[0_20px_0_0]">
+      <div className="pattern-moon pattern-bg-rose-400 pattern-rose-300 pattern-opacity-100 pattern-size-4 w-full h-[60rem] rounded-lg z-30 flex flex-col justify-start shadow-purple-700 shadow-[0_20px_0_0] relative">
         {!is2023contentEmpty ? (
-          <div className="flex flex-col items-center justify-center relative bottom-14 right-6">
+          <div className="flex flex-col items-center justify-center relative bottom-14 right-6 z-50">
             <p className="text-4xl vert text-rose-800 font-vinasans align-middle bg-white w-96 rounded-full leading-[4.5rem] z-50 border-purple-700 border-[4px] shadow-amber-400 shadow-[1rem_1rem_0_0]">
               {"Content you've made in 2023"}
             </p>
             {/* <div className="bg-purple-800 w-96 h-20 rounded-full relative bottom-[5.4rem] left-2 z-40" /> */}
+          </div>
+        ) : null}
+        {!is2023contentEmpty ? (
+          <div className="rollingcat absolute -top-[6rem] z-40">
+            <img src={rollingCat} width={120} height={120} alt="rolling cat" />
           </div>
         ) : null}
         {!is2023contentEmpty ? (
@@ -90,7 +99,10 @@ const Content = (): ReactElement => {
         ) : null}
         {postTrendYearWise.length > 0 ? (
           <>
-            <div className="mt-10 mb-32 flex flex-col items-center justify-center bg-rose-100 mx-24 py-10 rounded-md">
+            <div className="mt-10 mb-32 flex flex-col items-center justify-center bg-rose-100 mx-24 py-10 rounded-md relative">
+              <div className="absolute left-[45%] -top-[7rem]">
+                <img src={sleepyCat} width={180} height={180} alt="sleepy cat" />
+              </div>
               <p className="text-6xl text-rose-600 my-5 font-vinasans">Content trends</p>
               <ResponsiveContainer width="80%" height={300}>
                 <AreaChart

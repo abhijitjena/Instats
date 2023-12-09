@@ -1,10 +1,12 @@
 import './likedPosts.css';
+import './follow.css';
 
 import { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
 
 import UserSelectors from '../../redux/selectors/userSelector';
+import followCat from '../../resources/cats/catFollow.gif';
 
 const FollowersFollowing = (): ReactElement => {
   const followHistory = useSelector(UserSelectors.getFollowHistory);
@@ -33,7 +35,7 @@ const FollowersFollowing = (): ReactElement => {
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-[60rem] mt-20">
-      <div className="pattern-bg-cyan-100 pattern-size-6 pattern-cyan-200 pattern-zigzag-3d pattern-opacity-100 w-full h-[120rem] rounded-lg z-30 shadow-blue-600 shadow-[0_20px_0_0]">
+      <div className="pattern-bg-cyan-100 pattern-size-6 pattern-cyan-200 pattern-zigzag-3d pattern-opacity-100 w-full h-[120rem] rounded-lg z-30 shadow-blue-600 shadow-[0_20px_0_0] relative">
         <div className="flex flex-col items-center justify-center relative bottom-14 right-6">
           <p className="text-4xl text-blue-900 font-vinasans align-middle bg-white w-96 rounded-full leading-[4.5rem] z-50 border-blue-500 border-[4px] shadow-yellow-400 shadow-[1rem_1rem_0_0]">
             {'Followers and Following'}
@@ -64,6 +66,9 @@ const FollowersFollowing = (): ReactElement => {
                 />
               </BarChart>
             </div>
+          </div>
+          <div className="absolute followcat">
+            <img src={followCat} width={180} height={180} alt="follow cat" />
           </div>
           <div className="flex flex-col w-[45%] h-[45rem] items-center justify-start mt-10">
             {followHistory.followingHistory['2023'] > 0 ? (
