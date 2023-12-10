@@ -69,6 +69,16 @@ const PreRequisites = (): ReactElement => {
             "Please keep your Instagram password handy in order to log in to Instagram on a desktop browser and download your data.\n This tool doesn't require your Instagram login credentials in any capacity."
           }
         </p>
+        <p className="text-cyan-800 font-bold text-lg font-poppins mb-10">
+          {'Feel free to review my code at '}
+          <a
+            href="https://github.com/abhijitjena/Instats"
+            target="_blank"
+            rel="noreferrer"
+          >
+            https://github.com/abhijitjena/Instats
+          </a>
+        </p>
       </div>
       <div className="mt-40" />
       <SectionTitle title="How to download your data" />
