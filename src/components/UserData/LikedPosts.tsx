@@ -26,14 +26,14 @@ const LikedPosts = (): ReactElement => {
   if (likeHistoryData.length === 0) return <div></div>;
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-[120rem] mt-20">
-      <div className="pattern-bg-yellow-100 pattern-size-4 pattern-yellow-200 pattern-diagonal-lines pattern-opacity-100 w-full h-[120rem] rounded-lg z-30 shadow-orange-600 shadow-[0_20px_0_0]">
+    <div className="flex flex-col items-center justify-center w-full 2xl:h-[120rem] h-[150rem] mt-20">
+      <div className="pattern-bg-yellow-100 pattern-size-4 pattern-yellow-200 pattern-diagonal-lines pattern-opacity-100 w-full 2xl:h-[120rem] h-[150rem] rounded-lg z-30 shadow-orange-600 shadow-[0_20px_0_0]">
         <div className="flex flex-col items-center justify-center relative bottom-14 right-6">
           <p className="text-4xl text-slate-800 font-vinasans align-middle bg-white w-96 rounded-full leading-[4.5rem] z-50 border-amber-300 border-[4px] shadow-purple-800 shadow-[1rem_1rem_0_0]">
             {'Posts you liked'}
           </p>
         </div>
-        <div className="flex flex-row items-center justify-between w-full px-20 h-[30rem]">
+        <div className="flex 2xl:flex-row flex-col items-center 2xl:justify-between justify-around w-full px-20 2xl:h-[30rem] h-[60rem]">
           {likedPosts.yearData['2023'] > 0 ? (
             <div className="flex flex-col w-[36%] h-16 items-center justify-center">
               <div className="flex flex-row items-center justify-center relative">
@@ -114,16 +114,16 @@ const LikedPosts = (): ReactElement => {
           {likedPosts.topCreators[0] &&
           likedPosts.topCreators[0].length > 0 &&
           likedPosts.topCreators[0][1] > 0 ? (
-            <div className="w-3/5 mx-[20%] items-center justify-center flex">
-              <div className="relative -top-36 left-[78%] z-50">
-                <img src={catLikes} width={140} height={140} alt="likes cat" />
-              </div>
+            <div className="w-3/5 mx-[20%] items-center justify-center flex relative">
               <div className="w-full h-40 shadow-yellow-500 shadow-[0_10px_0_0] rounded-xl p-8 relative flex flex-row items-center justify-between pattern-wavy pattern-yellow-100 pattern-opacity-100 pattern-bg-yellow-400 pattern-size-8">
+                <div className="absolute -top-[8.6rem] left-[78%] z-40">
+                  <img src={catLikes} width={140} height={140} alt="likes cat" />
+                </div>
                 <p className="font-vinasans text-white text-[4rem] drop-shadow-[0_2px_2px_rgba(207,163,24,1)]">
                   {likedPosts.topCreators[0][0]}
                 </p>
               </div>
-              <div className="w-0">
+              <div className="w-0 z-50">
                 <div className="starburst stb-large bg-gradient-to-r from-red-500 to-yellow-300 flex flex-col items-center justify-center relative left-[-8rem]">
                   <p className="text-white font-pikachu font-bold text-[3rem] leading-[3rem] m-0">{`${likedPosts.topCreators[0][1]}`}</p>
                   <p className="text-yellow-200 font-poppins text-2xl m-0">Likes</p>
@@ -177,7 +177,7 @@ const LikedPosts = (): ReactElement => {
               return (
                 <div
                   key={value[0]}
-                  className="w-[45%] mb-14 mx-6 flex flex-row items-center justify-center"
+                  className="likedcreatormini mb-14 mx-6 flex flex-row items-center justify-center"
                 >
                   <div className="h-20 w-full rounded-xl p-8 relative flex flex-row items-center justify-between pattern-zigzag pattern-size-4 pattern-purple-500 pattern-opacity-100 pattern-bg-purple-700">
                     <p className="font-vinasans text-white text-[1.5rem] drop-shadow-[0_2px_2px_rgba(148,66,14,1)]">

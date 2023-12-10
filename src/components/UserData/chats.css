@@ -60,4 +60,16 @@
 
 .cheercat {
   left: calc(50% - 140px);
+  @media (max-width: 1280px) {
+    left: calc(50% - 100px);
+  }
+}
+
+.cheer-cat-img {
+  width: 280px;
+  /* height: 280px; */
+  @media (max-width: 1280px) {
+    width: 200px;
+    /* height: 200px; */
+  }
 }

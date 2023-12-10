@@ -12,7 +12,7 @@ const Hero = (): ReactElement => {
     <div className="hero-bg w-full h-[60rem] flex flex-col justify-center items-center">
       <div className="title-bg w-1/2 mb-14 h-96">
         <div className="w-36 h-36 ttl-shp-1 rounded-[4.5rem] absolute" />
-        <h1 className="title-txt text-[18rem] leading-[14rem] w-[40rem] h-[12rem] inline-block font-cookie text-white text-center align-middle absolute">
+        <h1 className="title-txt xl:text-[18rem] text-[12rem] leading-[14rem] w-[40rem] h-[12rem] inline-block font-cookie text-white text-center align-middle absolute">
           Instats
         </h1>
         <div className="w-36 h-36 ttl-shp-2 rounded-[4.5rem] absolute" />
@@ -22,7 +22,7 @@ const Hero = (): ReactElement => {
         <div className="w-36 h-36 ttl-shp-6 rounded-[4.5rem] absolute" />
         <div className="w-36 h-36 ttl-shp-7 rounded-[4.5rem] absolute" />
       </div>
-      <h1 className="w-3/5 font-martian opacity-95 text-2xl text-center text-white z-20">
+      <h1 className="w-3/5 font-martian opacity-95 xl:text-2xl text-xl text-center text-white z-20">
         Fun stats for your Instagram data
       </h1>
       <img

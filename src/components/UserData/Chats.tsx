@@ -56,33 +56,6 @@ const Chats = (): ReactElement => {
   const top4ContainerRef = useRef(null);
   const top5ContainerRef = useRef(null);
 
-  useEffect(() => {
-    let container: any;
-    if (isHovered[2]) container = top2ContainerRef.current;
-    else if (isHovered[3]) container = top3ContainerRef.current;
-    else if (isHovered[4]) container = top4ContainerRef.current;
-    else if (isHovered[5]) container = top5ContainerRef.current;
-    else container = null;
-
-    if (container) {
-      const scrollWidth = container.scrollWidth - container.clientWidth;
-      let animationFrameId: any;
-
-      const scroll = () => {
-        const newScrollLeft = container.scrollLeft + 1;
-
-        if (newScrollLeft <= scrollWidth) {
-          container.scrollLeft = newScrollLeft;
-          animationFrameId = requestAnimationFrame(scroll);
-        }
-      };
-
-      animationFrameId = requestAnimationFrame(scroll);
-
-      return () => cancelAnimationFrame(animationFrameId);
-    }
-  }, [isHovered]);
-
   const handleMouseEnter = (index: string) => {
     setIsHovered({ ...isHovered, [index]: true });
   };
@@ -357,7 +330,7 @@ const Chats = (): ReactElement => {
     return (
       <div className="flex flex-col items-center justify-center w-full h-[180rem]">
         <div className="relative top-12 z-50">
-          <img src={hearts} width={220} height={220} alt="cheers cat" />
+          <img src={hearts} width={220} height={220} alt="hearts cat" />
         </div>
         <div className="flex flex-row items-start justify-center mb-32">
           <Glitter
@@ -366,10 +339,10 @@ const Chats = (): ReactElement => {
             style={{ position: 'relative', right: '1vw', bottom: '3vh', fill: '#ffd701' }}
           />
           <div className="flex flex-col items-start justify-center">
-            <p className="text-5xl font-extrabold italic font-pikachu align-middle text-white z-20">
+            <p className="text-4xl xl:text-5xl font-extrabold italic font-pikachu align-middle text-white z-20">
               {"YOUR INSTAGRAM BESTIES '23"}
             </p>
-            <p className="gr-bestie text-5xl font-extrabold italic text-white font-pikachu align-middle relative left-1 bottom-[5rem] z-10">
+            <p className="gr-bestie text-4xl xl:text-5xl font-extrabold italic text-white font-pikachu align-middle relative left-1 bottom-[5rem] z-10">
               {"YOUR INSTAGRAM BESTIES '23"}
             </p>
           </div>
@@ -414,7 +387,7 @@ const Chats = (): ReactElement => {
                   </p>
                 </div>
                 <div className="absolute cheercat">
-                  <img src={cheers} width={280} height={280} alt="cheers cat" />
+                  <img src={cheers} className="cheer-cat-img" alt="cheers cat" />
                 </div>
                 {topChats[0].totalReels ? (
                   <div className="w-2/5 relative flex flex-col items-center justify-center p-15">

@@ -272,7 +272,7 @@ const PreRequisites = (): ReactElement => {
           },
         })}
       </div>
-      <div className="mb-40 w-2/3 h-56 mt-10 px-16 py-10 bg-lime-300">
+      <div className="mb-40 w-2/3 mt-10 px-16 py-10 bg-lime-300 relative">
         <p className="text-lime-700 font-poppins font-bold text-lg">
           Once these steps are over, Instagram will notify over your email id when the
           requested data is available. Please use a web browser to open the link in the
@@ -287,7 +287,7 @@ const PreRequisites = (): ReactElement => {
           width={140}
           height={140}
           alt="scratch cat"
-          className="relative -top-[10rem] left-[101%]"
+          className="absolute top-[5rem] left-[93%]"
         />
       </div>
     </div>

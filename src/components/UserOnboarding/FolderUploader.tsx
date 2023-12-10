@@ -525,12 +525,12 @@ const FolderUploader = (): React.ReactElement => {
     <div className="w-full flex flex-col justify-center items-center pb-80">
       <SectionTitle title="Upload your folders" />
       <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-red-400 to-red-600 h-44">
-        <div className="flex flex-row justify-between items-center">
-          <div className="flex flex-col justify-start items-start">
-            <h3 className="text-5xl text-red-900 font-vinasans">
+        <div className="flex w-full flex-row justify-between items-center">
+          <div className="flex w-4/5 flex-col justify-start items-start">
+            <h3 className="xl:text-5xl text-4xl text-red-900 font-vinasans">
               Upload content info folder
             </h3>
-            <pre className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > content folder`}</pre>
+            <p className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > content folder`}</p>
           </div>
           <UploadButton
             retrieveFiles={(files: FileList | null) => retrieveContentFiles(files)}
@@ -540,12 +540,12 @@ const FolderUploader = (): React.ReactElement => {
         </div>
       </div>
       <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-cyan-400 to-cyan-600 h-44">
-        <div className="flex flex-row justify-between items-center">
-          <div className="flex flex-col justify-start items-start">
-            <h3 className="text-5xl text-cyan-900 font-vinasans">
-              Upload followers/following folder
+        <div className="flex w-full flex-row justify-between items-center">
+          <div className="flex w-4/5 flex-col justify-start items-start">
+            <h3 className="xl:text-5xl text-4xl text-cyan-900 font-vinasans">
+              Upload follow activity folder
             </h3>
-            <pre className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > followers_and_following folder`}</pre>
+            <p className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > followers_and_following folder`}</p>
           </div>
           <UploadButton
             retrieveFiles={(files: FileList | null) => retrieveFollowFiles(files)}
@@ -562,12 +562,12 @@ const FolderUploader = (): React.ReactElement => {
         />
       </div>
       <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-yellow-400 to-yellow-600 h-44">
-        <div className="flex flex-row justify-between items-center">
-          <div className="flex flex-col justify-start items-start">
-            <h3 className="text-5xl text-yellow-900 font-vinasans">
+        <div className="flex w-full flex-row justify-between items-center">
+          <div className="flex w-4/5 flex-col justify-start items-start">
+            <h3 className="xl:text-5xl text-4xl text-yellow-900 font-vinasans">
               Upload inbox folder
             </h3>
-            <pre className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > messages > inbox folder`}</pre>
+            <p className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > messages > inbox folder`}</p>
           </div>
           <UploadButton
             retrieveFiles={(files: FileList | null) => retrieveInboxFiles(files)}
@@ -577,10 +577,12 @@ const FolderUploader = (): React.ReactElement => {
         </div>
       </div>
       <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-green-400 to-green-600 h-44">
-        <div className="flex flex-row justify-between items-center">
-          <div className="flex flex-col justify-start items-start">
-            <h3 className="text-5xl text-green-900 font-vinasans">Upload likes folder</h3>
-            <pre className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > likes folder`}</pre>
+        <div className="flex w-full flex-row justify-between items-center">
+          <div className="flex w-4/5 flex-col justify-start items-start">
+            <h3 className="xl:text-5xl text-4xl text-green-900 font-vinasans">
+              Upload likes folder
+            </h3>
+            <p className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > likes folder`}</p>
           </div>
           <UploadButton
             retrieveFiles={(files: FileList | null) => retrieveLikesFiles(files)}
@@ -597,12 +599,12 @@ const FolderUploader = (): React.ReactElement => {
         />
       </div>
       <div className="py-8 px-14 my-10 w-2/3 bg-gradient-to-br from-violet-400 to-violet-600 h-44">
-        <div className="flex flex-row justify-between items-center">
-          <div className="flex flex-col justify-start items-start">
-            <h3 className="text-5xl text-purple-900 font-vinasans">
+        <div className="flex w-full flex-row justify-between items-center">
+          <div className="flex w-2/3 flex-col justify-start items-start">
+            <h3 className="xl:text-5xl text-4xl text-purple-900 font-vinasans">
               Upload saved folder
             </h3>
-            <pre className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > saved folder`}</pre>
+            <p className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > saved folder`}</p>
           </div>
           <UploadButton
             retrieveFiles={(files: FileList | null) => retrieveSavedFiles(files)}

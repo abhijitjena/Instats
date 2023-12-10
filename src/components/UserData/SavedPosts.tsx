@@ -62,8 +62,8 @@ const SavedPosts = (): ReactElement => {
                     <p className="font-vinasans text-white text-[1.75rem] leading-[1.75rem] drop-shadow-[0_2px_2px_rgba(148,66,14,1)]">
                       {value[0]}
                     </p>
-                    <div>
-                      <div className="bg-gradient-to-br from-purple-600 to-purple-900 flex flex-col items-center justify-center relative px-5 py-5 rounded-lg h-18 w-52">
+                    <div className="w-full">
+                      <div className="bg-gradient-to-br from-purple-600 to-purple-900 flex flex-col items-center justify-center relative px-5 py-5 rounded-lg h-18 w-full">
                         <p className="text-green-300 font-pikachu font-bold text-[2.25rem] leading-[2.25rem] m-0">{`${value[1]}`}</p>
                         <p className="text-white font-poppins text-lg font-bold m-0">
                           saves

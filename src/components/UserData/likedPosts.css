@@ -73,3 +73,10 @@
     left: 5%;
   }
 }
+
+.likedcreatormini {
+  width: 45%;
+  @media (max-width: 1350px) {
+    width: 40%;
+  }
+}
