@@ -43,18 +43,12 @@ const PreRequisites = (): ReactElement => {
   };
 
   return (
-    <div className="my-10 w-full flex flex-col justify-center items-center">
+    <div className="my-10 w-full flex flex-col justify-center items-center relative">
       <SectionTitle title="Before we begin" />
-      <div>
-        <img
-          src={sleepyCat1}
-          width={160}
-          height={160}
-          alt="sleepy cat"
-          className="relative top-32 left-72"
-        />
+      <div className="absolute top-16 left-[70%]">
+        <img src={sleepyCat1} width={160} height={160} alt="sleepy cat" />
       </div>
-      <div className="w-2/3 my-14 h-[36rem] pattern-zigzag-3d pattern-cyan-300 pattern-bg-cyan-400 pattern-opacity-100 p-16">
+      <div className="w-2/3 my-14 pattern-zigzag-3d pattern-cyan-300 pattern-bg-cyan-400 pattern-opacity-100 p-16">
         <p className="text-cyan-800 font-bold text-lg font-poppins mb-10">
           {
             'Instagram allows you to access your data through a download request. This tool uses the data to calculate and present interesting stats that is not available on the official app.'
