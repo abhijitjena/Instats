@@ -1,0 +1,12 @@
+#download-chats {
+  background-image: url('../../resources/bg.png');
+  background-size: 19em 14em;
+  background-color: #333333;
+  .cheercat {
+    left: calc(50% - 80px);
+  }
+  
+  .cheer-cat-img {
+    width: 160px;
+  }
+}

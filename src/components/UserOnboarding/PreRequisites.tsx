@@ -43,7 +43,7 @@ const PreRequisites = (): ReactElement => {
   };
 
   return (
-    <div className="my-10 w-full flex flex-col justify-center items-center relative">
+    <div className="my-5 lg:my-10 w-full flex flex-col justify-center items-center relative">
       <SectionTitle title="Before we begin" />
       <div className="absolute top-16 left-[70%]">
         <img src={sleepyCat1} width={160} height={160} alt="sleepy cat" />

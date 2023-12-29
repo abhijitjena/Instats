@@ -24,7 +24,7 @@
   }
 }
 
-.chatNyan {
+.chatNyan { 
   -webkit-animation: chatNyan 20s linear infinite;
   -moz-animation: chatNyan 20s linear infinite;
   animation: chatNyan 20s linear infinite;

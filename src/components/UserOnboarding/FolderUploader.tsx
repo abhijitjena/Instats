@@ -530,7 +530,7 @@ const FolderUploader = (): React.ReactElement => {
             <h3 className="xl:text-5xl text-4xl text-red-900 font-vinasans">
               Upload content info folder
             </h3>
-            <p className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > content folder`}</p>
+            <p className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > your_instagram_activity > content folder`}</p>
           </div>
           <UploadButton
             retrieveFiles={(files: FileList | null) => retrieveContentFiles(files)}
@@ -545,7 +545,7 @@ const FolderUploader = (): React.ReactElement => {
             <h3 className="xl:text-5xl text-4xl text-cyan-900 font-vinasans">
               Upload follow activity folder
             </h3>
-            <p className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > followers_and_following folder`}</p>
+            <p className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > connections > followers_and_following folder`}</p>
           </div>
           <UploadButton
             retrieveFiles={(files: FileList | null) => retrieveFollowFiles(files)}
@@ -567,7 +567,7 @@ const FolderUploader = (): React.ReactElement => {
             <h3 className="xl:text-5xl text-4xl text-yellow-900 font-vinasans">
               Upload inbox folder
             </h3>
-            <p className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > messages > inbox folder`}</p>
+            <p className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > your_instagram_activity > messages > inbox folder`}</p>
           </div>
           <UploadButton
             retrieveFiles={(files: FileList | null) => retrieveInboxFiles(files)}
@@ -582,7 +582,7 @@ const FolderUploader = (): React.ReactElement => {
             <h3 className="xl:text-5xl text-4xl text-green-900 font-vinasans">
               Upload likes folder
             </h3>
-            <p className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > likes folder`}</p>
+            <p className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > your_instagram_activity > likes folder`}</p>
           </div>
           <UploadButton
             retrieveFiles={(files: FileList | null) => retrieveLikesFiles(files)}
@@ -604,7 +604,7 @@ const FolderUploader = (): React.ReactElement => {
             <h3 className="xl:text-5xl text-4xl text-purple-900 font-vinasans">
               Upload saved folder
             </h3>
-            <p className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > saved folder`}</p>
+            <p className="text-base text-white font-poppins text-left mt-5">{`Click on the Upload button and then select Parent folder > your_instagram_activity > saved folder`}</p>
           </div>
           <UploadButton
             retrieveFiles={(files: FileList | null) => retrieveSavedFiles(files)}

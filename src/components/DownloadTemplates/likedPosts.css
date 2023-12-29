@@ -1,0 +1,11 @@
+#download-likes {
+  background-image: url('../../resources/bg.png');
+  background-size: 19em 14em;
+  background-color: #333333;
+  .likedcreatormini {
+    width: 40%;
+    @media (max-width: 1350px) {
+      width: 40%;
+    }
+  }
+}

@@ -9,20 +9,18 @@ import waffle from '../../resources/cats/waffle.gif';
 
 const Hero = (): ReactElement => {
   return (
-    <div className="hero-bg w-full h-[60rem] flex flex-col justify-center items-center">
-      <div className="title-bg w-1/2 mb-14 h-96">
-        <div className="w-36 h-36 ttl-shp-1 rounded-[4.5rem] absolute" />
-        <h1 className="title-txt xl:text-[18rem] text-[12rem] leading-[14rem] w-[40rem] h-[12rem] inline-block font-cookie text-white text-center align-middle absolute">
+    <div className="hero-bg w-full h-[20rem] sm:h-[30rem] lg:h-[60rem] flex flex-col justify-center items-center">
+      <div className="title-bg w-4/5 sm:w-3/5 xl:w-1/2 mb-14 h-32 sm:h-48 lg:h-96 relative flex items-center justify-center">
+        <div className="w-9 h-9 sm:w-16 sm:h-16 lg:w-36 lg:h-36 rounded-[1.125rem] sm:rounded-[2rem] lg:rounded-[4.5rem] ttl-shp-1 absolute" />
+        <h1 className="title-txt text-[9rem] lg:text-[18rem] font-cookie text-white text-center align-middle">
           Instats
         </h1>
-        <div className="w-36 h-36 ttl-shp-2 rounded-[4.5rem] absolute" />
-        <div className="w-36 h-36 ttl-shp-3 rounded-[4.5rem] absolute" />
-        <div className="w-36 h-36 ttl-shp-4 rounded-[4.5rem] absolute" />
-        <div className="w-36 h-36 ttl-shp-5 rounded-[4.5rem] absolute" />
-        <div className="w-36 h-36 ttl-shp-6 rounded-[4.5rem] absolute" />
-        <div className="w-36 h-36 ttl-shp-7 rounded-[4.5rem] absolute" />
+        <div className="w-9 h-9 sm:w-16 sm:h-16 lg:w-36 lg:h-36 rounded-[1.125rem] sm:rounded-[2rem] lg:rounded-[4.5rem] ttl-shp-2 absolute" />
+        <div className="w-9 h-9 sm:w-16 sm:h-16 lg:w-36 lg:h-36 rounded-[1.125rem] sm:rounded-[2rem] lg:rounded-[4.5rem] ttl-shp-3 absolute" />
+        <div className="w-9 h-9 sm:w-16 sm:h-16 lg:w-36 lg:h-36 rounded-[1.125rem] sm:rounded-[2rem] lg:rounded-[4.5rem] ttl-shp-4 absolute" />
+        <div className="w-9 h-9 sm:w-16 sm:h-16 lg:w-36 lg:h-36 rounded-[1.125rem] sm:rounded-[2rem] lg:rounded-[4.5rem] ttl-shp-5 absolute" />
       </div>
-      <h1 className="w-3/5 font-martian opacity-95 xl:text-2xl text-xl text-center text-white z-20">
+      <h1 className="w-3/5 font-martian opacity-95 xl:text-2xl text-lg text-center text-white z-20">
         Fun stats for your Instagram data
       </h1>
       <img
