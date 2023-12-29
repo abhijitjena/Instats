@@ -27,7 +27,7 @@ const UserOnboarding = (): ReactElement => {
         <Hero />
         <div className="mb-24 xl:mb-48" />
         <PreRequisites />
-        <FolderUploader />
+        {window.innerWidth > 1024 ? <FolderUploader /> : null}
       </div>
       <div ref={blurredAreaRef} className="blurred-area"></div>
     </div>

@@ -87,15 +87,17 @@ const FolderUploader = (): React.ReactElement => {
                       const postYear = isSingleMedia
                         ? new Date(media.media[0].creation_timestamp * 1000).getFullYear()
                         : new Date(media.creation_timestamp * 1000).getFullYear();
-                      if (!contentMap[postYear]) contentMap[postYear] = {};
-                      if (!contentMap[postYear][postMonth])
-                        contentMap[postYear][postMonth] = {
-                          posts: 0,
-                          reels: 0,
-                          stories: 0,
-                        };
-                      const prevPostCount = contentMap[postYear][postMonth].posts;
-                      contentMap[postYear][postMonth].posts = prevPostCount + 1;
+                      if (postYear < 2024) {
+                        if (!contentMap[postYear]) contentMap[postYear] = {};
+                        if (!contentMap[postYear][postMonth])
+                          contentMap[postYear][postMonth] = {
+                            posts: 0,
+                            reels: 0,
+                            stories: 0,
+                          };
+                        const prevPostCount = contentMap[postYear][postMonth].posts;
+                        contentMap[postYear][postMonth].posts = prevPostCount + 1;
+                      }
                     });
                   });
               }
@@ -115,15 +117,17 @@ const FolderUploader = (): React.ReactElement => {
                       const storyYear = new Date(
                         story.creation_timestamp * 1000,
                       ).getFullYear();
-                      if (!contentMap[storyYear]) contentMap[storyYear] = {};
-                      if (!contentMap[storyYear][storyMonth])
-                        contentMap[storyYear][storyMonth] = {
-                          posts: 0,
-                          reels: 0,
-                          stories: 0,
-                        };
-                      const prevStoryCount = contentMap[storyYear][storyMonth].stories;
-                      contentMap[storyYear][storyMonth].stories = prevStoryCount + 1;
+                      if (storyYear < 2024) {
+                        if (!contentMap[storyYear]) contentMap[storyYear] = {};
+                        if (!contentMap[storyYear][storyMonth])
+                          contentMap[storyYear][storyMonth] = {
+                            posts: 0,
+                            reels: 0,
+                            stories: 0,
+                          };
+                        const prevStoryCount = contentMap[storyYear][storyMonth].stories;
+                        contentMap[storyYear][storyMonth].stories = prevStoryCount + 1;
+                      }
                     });
                   });
               }
@@ -143,15 +147,17 @@ const FolderUploader = (): React.ReactElement => {
                       const reelYear = new Date(
                         reel.media[0].creation_timestamp * 1000,
                       ).getFullYear();
-                      if (!contentMap[reelYear]) contentMap[reelYear] = {};
-                      if (!contentMap[reelYear][reelMonth])
-                        contentMap[reelYear][reelMonth] = {
-                          posts: 0,
-                          reels: 0,
-                          stories: 0,
-                        };
-                      const prevReelCount = contentMap[reelYear][reelMonth].reels;
-                      contentMap[reelYear][reelMonth].reels = prevReelCount + 1;
+                      if (reelYear < 2024) {
+                        if (!contentMap[reelYear]) contentMap[reelYear] = {};
+                        if (!contentMap[reelYear][reelMonth])
+                          contentMap[reelYear][reelMonth] = {
+                            posts: 0,
+                            reels: 0,
+                            stories: 0,
+                          };
+                        const prevReelCount = contentMap[reelYear][reelMonth].reels;
+                        contentMap[reelYear][reelMonth].reels = prevReelCount + 1;
+                      }
                     });
                   });
               }
@@ -202,7 +208,7 @@ const FolderUploader = (): React.ReactElement => {
               fetch(dataUri.toString())
                 .then((response) => response.json())
                 .then((data) => {
-                  for (let i = 2018; i <= new Date().getFullYear(); i++) {
+                  for (let i = 2018; i <= 2023; i++) {
                     const followingForYear = data.relationships_following.filter(
                       (media: any) =>
                         media.string_list_data[0].timestamp * 1000 >=
@@ -236,7 +242,7 @@ const FolderUploader = (): React.ReactElement => {
               fetch(dataUri.toString())
                 .then((response) => response.json())
                 .then((data) => {
-                  for (let i = 2018; i <= new Date().getFullYear(); i++) {
+                  for (let i = 2018; i <= 2023; i++) {
                     const followersForYear = data.filter(
                       (media: any) =>
                         media.string_list_data[0].timestamp * 1000 >=
@@ -278,7 +284,7 @@ const FolderUploader = (): React.ReactElement => {
               fetch(dataUri.toString())
                 .then((response) => response.json())
                 .then((data) => {
-                  for (let i = 2018; i <= new Date().getFullYear(); i++) {
+                  for (let i = 2018; i <= 2023; i++) {
                     const likesForYear = data.likes_media_likes.filter(
                       (media: any) =>
                         media.string_list_data[0].timestamp * 1000 >=
@@ -377,48 +383,50 @@ const FolderUploader = (): React.ReactElement => {
                     const messageDate = new Date(message.timestamp_ms).getDate();
                     const messageMonth = new Date(message.timestamp_ms).getMonth();
                     const messageYear = new Date(message.timestamp_ms).getFullYear();
-                    if (!chatStore[messageYear]) chatStore[messageYear] = {};
-                    if (!chatStore[messageYear][messageMonth])
-                      chatStore[messageYear][messageMonth] = {};
-                    if (!chatStore[messageYear][messageMonth][messageDate])
-                      chatStore[messageYear][messageMonth][messageDate] = {
-                        numOfReels: 0,
-                        numOfTexts: 0,
-                      };
+                    if (messageYear < 2024) {
+                      if (!chatStore[messageYear]) chatStore[messageYear] = {};
+                      if (!chatStore[messageYear][messageMonth])
+                        chatStore[messageYear][messageMonth] = {};
+                      if (!chatStore[messageYear][messageMonth][messageDate])
+                        chatStore[messageYear][messageMonth][messageDate] = {
+                          numOfReels: 0,
+                          numOfTexts: 0,
+                        };
 
-                    let prevReelValue =
-                      chatStore[messageYear]?.[messageMonth]?.[messageDate]?.numOfReels ||
-                      0;
+                      let prevReelValue =
+                        chatStore[messageYear]?.[messageMonth]?.[messageDate]
+                          ?.numOfReels || 0;
 
-                    let prevTextValue =
-                      chatStore[messageYear]?.[messageMonth]?.[messageDate]?.numOfTexts ||
-                      0;
+                      let prevTextValue =
+                        chatStore[messageYear]?.[messageMonth]?.[messageDate]
+                          ?.numOfTexts || 0;
 
-                    totalTexts += 1;
+                      totalTexts += 1;
 
-                    if (chatStore[messageYear][messageMonth][messageDate].numOfTexts)
-                      chatStore[messageYear][messageMonth][messageDate].numOfTexts =
-                        prevTextValue += 1;
-                    else
-                      chatStore[messageYear][messageMonth][messageDate] = {
-                        ...chatStore[messageYear][messageMonth][messageDate],
-                        numOfTexts: (prevTextValue += 1),
-                      };
-
-                    if (
-                      message.share &&
-                      message.share.link &&
-                      message.share.link.includes('/reel/')
-                    ) {
-                      totalReels += 1;
-                      if (chatStore[messageYear][messageMonth][messageDate].numOfReels)
-                        chatStore[messageYear][messageMonth][messageDate].numOfReels =
-                          prevReelValue += 1;
+                      if (chatStore[messageYear][messageMonth][messageDate].numOfTexts)
+                        chatStore[messageYear][messageMonth][messageDate].numOfTexts =
+                          prevTextValue += 1;
                       else
                         chatStore[messageYear][messageMonth][messageDate] = {
                           ...chatStore[messageYear][messageMonth][messageDate],
-                          numOfReels: (prevReelValue += 1),
+                          numOfTexts: (prevTextValue += 1),
                         };
+
+                      if (
+                        message.share &&
+                        message.share.link &&
+                        message.share.link.includes('/reel/')
+                      ) {
+                        totalReels += 1;
+                        if (chatStore[messageYear][messageMonth][messageDate].numOfReels)
+                          chatStore[messageYear][messageMonth][messageDate].numOfReels =
+                            prevReelValue += 1;
+                        else
+                          chatStore[messageYear][messageMonth][messageDate] = {
+                            ...chatStore[messageYear][messageMonth][messageDate],
+                            numOfReels: (prevReelValue += 1),
+                          };
+                      }
                     }
                   });
 

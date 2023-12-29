@@ -20,34 +20,34 @@ const Hero = (): ReactElement => {
         <div className="w-9 h-9 sm:w-16 sm:h-16 lg:w-36 lg:h-36 rounded-[1.125rem] sm:rounded-[2rem] lg:rounded-[4.5rem] ttl-shp-4 absolute" />
         <div className="w-9 h-9 sm:w-16 sm:h-16 lg:w-36 lg:h-36 rounded-[1.125rem] sm:rounded-[2rem] lg:rounded-[4.5rem] ttl-shp-5 absolute" />
       </div>
-      <h1 className="w-3/5 font-martian opacity-95 xl:text-2xl text-lg text-center text-white z-20">
+      <h1 className="w-4/5 lg:w-3/5 font-martian opacity-95 xl:text-2xl lg:text-lg text-base text-center text-white z-20">
         Fun stats for your Instagram data
       </h1>
       <img
         src={nyanCat}
-        width={80}
-        height={80}
+        width={window.innerWidth > 1024 ? 80 : 40}
+        height={window.innerWidth > 1024 ? 80 : 40}
         alt="nyan cat"
         className="nyanCat absolute"
       />
       <img
         src={pikachu}
-        width={80}
-        height={80}
+        width={window.innerWidth > 1024 ? 80 : 40}
+        height={window.innerWidth > 1024 ? 80 : 40}
         alt="pikachu cat"
         className="pikachu absolute"
       />
       <img
         src={waffle}
-        width={80}
-        height={80}
+        width={window.innerWidth > 1024 ? 80 : 40}
+        height={window.innerWidth > 1024 ? 80 : 40}
         alt="waffle cat"
         className="waffle absolute"
       />
       <img
         src={toast}
-        width={80}
-        height={80}
+        width={window.innerWidth > 1024 ? 80 : 40}
+        height={window.innerWidth > 1024 ? 80 : 40}
         alt="toast cat"
         className="toast absolute"
       />

@@ -45,15 +45,18 @@
 :root {
   --title-shp-dm: 2.25rem;
   --hero-bg-height: 20rem;
+  --cat-baseline: 25px;
 
   @media (min-width: 640px) {
     --title-shp-dm: 4rem;
     --hero-bg-height: 30rem;
+    --cat-baseline: 28px;
   }
 
   @media (min-width: 1024px) {
     --title-shp-dm: 9rem;
     --hero-bg-height: 60rem;
+    --cat-baseline: 50px;
   }
 }
 
@@ -492,65 +495,65 @@
 @-webkit-keyframes nyanCat {
   0% {
     left: 0;
-    top: calc(var(--hero-bg-height) - 50px);
+    top: calc(var(--hero-bg-height) - var(--cat-baseline));
   }
   100% {
-    left: calc(100vw - 50px);
-    top: calc(var(--hero-bg-height) - 50px);
+    left: calc(100vw - var(--cat-baseline));
+    top: calc(var(--hero-bg-height) - var(--cat-baseline));
   }
 }
 
 @-moz-keyframes nyanCat {
   0% {
     left: 0;
-    top: calc(var(--hero-bg-height) - 50px);
+    top: calc(var(--hero-bg-height) - var(--cat-baseline));
   }
   100% {
     left: calc(100vw - 100px);
-    top: calc(var(--hero-bg-height) - 50px);
+    top: calc(var(--hero-bg-height) - var(--cat-baseline));
   }
 }
 
 @keyframes nyanCat {
   0% {
     left: 0;
-    top: calc(var(--hero-bg-height) - 50px);
+    top: calc(var(--hero-bg-height) - var(--cat-baseline));
   }
   100% {
     left: calc(100vw - 100px);
-    top: calc(var(--hero-bg-height) - 50px);
+    top: calc(var(--hero-bg-height) - var(--cat-baseline));
   }
 }
 
 @-webkit-keyframes waffle {
   100% {
     left: 0;
-    top: calc(var(--hero-bg-height) - 50px);
+    top: calc(var(--hero-bg-height) - var(--cat-baseline));
   }
   0% {
     left: calc(100vw - 100px);
-    top: calc(var(--hero-bg-height) - 50px);
+    top: calc(var(--hero-bg-height) - var(--cat-baseline));
   }
 }
 
 @-moz-keyframes waffle {
   100% {
     left: 0;
-    top: calc(var(--hero-bg-height) - 50px);
+    top: calc(var(--hero-bg-height) - var(--cat-baseline));
   }
   0% {
     left: calc(100vw - 100px);
-    top: calc(var(--hero-bg-height) - 50px);
+    top: calc(var(--hero-bg-height) - var(--cat-baseline));
   }
 }
 
 @keyframes waffle {
   100% {
     left: 0;
-    top: calc(var(--hero-bg-height) - 50px);
+    top: calc(var(--hero-bg-height) - var(--cat-baseline));
   }
   0% {
     left: calc(100vw - 100px);
-    top: calc(var(--hero-bg-height) - 50px);
+    top: calc(var(--hero-bg-height) - var(--cat-baseline));
   }
 }
